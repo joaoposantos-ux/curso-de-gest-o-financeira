@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fundo suave para toda a aplicação */
+body {
+  @apply bg-gradient-to-br from-white via-blue-50 to-gray-100 min-h-screen;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+/* Títulos com efeito neon/tecnológico */
+.neon-title {
+  background: linear-gradient(90deg, #7c3aed 20%, #06b6d4 60%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow: 0 0 12px #38bdf8, 0 0 24px #7c3aed;
+  letter-spacing: 1.5px;
+}
+.neon-subtitle {
+  background: linear-gradient(90deg, #22d3ee 0%, #a21caf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow: 0 0 8px #a21caf, 0 0 12px #22d3ee;
+}
+
+/* Scrollbar mais discreta */
+::-webkit-scrollbar {
+  width: 8px;
+  background: #f3f4f6;
+}
+::-webkit-scrollbar-thumb {
+  background: #60a5fa;
+  border-radius: 4px;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.animate-fade-in { animation: fade-in 0.3s; }
