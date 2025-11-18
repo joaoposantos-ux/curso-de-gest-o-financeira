@@ -16,6 +16,7 @@
     "express": "^5.1.0",
     "multer": "^2.0.0",
     "node-cron": "^4.0.7",
+    "os-kanban": "file:..",
     "sqlite3": "^5.1.7"
   }
 }

@@ -28,34 +28,42 @@ export default function App() {
 
   return (
     <Router>
-      <nav className="flex gap-4 p-1 bg-blue-100 mb-2 items-center">
-        <img
-          src="/logo.png"
-          alt="Logo"
-          className="h-14 w-14 object-contain mr-3"
-          style={{ minWidth: 100 }}
-        />
-  <Link to="/curso" className="text-green-700 font-bold hover:underline">Gestão Financeira</Link>
-  <Link to="/aluno" className="text-blue-700 font-bold hover:underline">Área do Aluno</Link>
-        <span className="ml-auto flex items-center gap-2 text-gray-700 font-semibold">
-          {usuario?.nome}
-          <button
-            onClick={() => {
-              setUsuario(null);
-              localStorage.removeItem('usuario');
-            }}
-            className="ml-4 text-red-500 font-semibold"
-          >
-            Sair
-          </button>
-        </span>
-      </nav>
-      <Routes>
-        <Route path="/curso" element={<HomeCurso />} />
-        <Route path="/modulo/:id" element={<ModuloCurso />} />
-        <Route path="/aluno" element={<AreaAluno />} />
-        <Route path="*" element={<HomeCurso />} />
-      </Routes>
+      <div className="flex flex-col min-h-screen">
+        <nav className="flex gap-4 p-1 bg-blue-100 mb-2 items-center">
+          <img
+            src="/logo.png"
+            alt="Logo"
+            className="h-14 w-14 object-contain mr-3"
+            style={{ minWidth: 100 }}
+          />
+    <Link to="/curso" className="text-green-700 font-bold hover:underline">Gestão Financeira</Link>
+    <Link to="/aluno" className="text-blue-700 font-bold hover:underline">Área do Aluno</Link>
+          <span className="ml-auto flex items-center gap-2 text-gray-700 font-semibold">
+            {usuario?.nome}
+            <button
+              onClick={() => {
+                setUsuario(null);
+                localStorage.removeItem('usuario');
+              }}
+              className="ml-4 text-red-500 font-semibold"
+            >
+              Sair
+            </button>
+          </span>
+        </nav>
+        <main className="flex-1">
+          <Routes>
+            <Route path="/curso" element={<HomeCurso />} />
+            <Route path="/modulo/:id" element={<ModuloCurso />} />
+            <Route path="/aluno" element={<AreaAluno />} />
+            <Route path="*" element={<HomeCurso />} />
+          </Routes>
+        </main>
+        <footer className="bg-slate-800 text-white text-center py-4 mt-12 border-t border-slate-700">
+          <p className="text-sm">© 2025 Curso de Gestão Financeira. Todos os dados são reservados e confidenciais.</p>
+          <p className="text-xs text-slate-400 mt-1">Acesso restrito a usuários autorizados.</p>
+        </footer>
+      </div>
     </Router>
   );
 }

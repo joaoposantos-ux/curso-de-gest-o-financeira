@@ -1,49 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import NotasAluno from './NotasAluno';
+import { FaBook, FaChartLine, FaClock, FaCheckCircle } from 'react-icons/fa';
 import NotasAlunoToggle from './NotasAlunoToggle';
-
 
 const modulos = [
   {
     id: 1,
     titulo: 'Introdução à Gestão Financeira e Conceitos Básicos',
     descricao: 'Fundamentos essenciais para entender a gestão financeira.',
-    imagem: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80'
+    icon: FaBook,
+    duracao: '2-3 horas'
   },
   {
     id: 2,
     titulo: 'Planejamento e Controle Financeiro',
     descricao: 'Como planejar, organizar e controlar as finanças de uma organização.',
-    imagem: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80'
+    icon: FaChartLine,
+    duracao: '3-4 horas'
   },
   {
     id: 3,
     titulo: 'Análise de Demonstrativos Contábeis',
     descricao: 'Entenda balanço patrimonial, DRE e outros relatórios.',
-    imagem: 'https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=400&q=80'
+    icon: FaBook,
+    duracao: '3-4 horas'
   },
   {
     id: 4,
     titulo: 'Fluxo de Caixa e Capital de Giro',
     descricao: 'Gestão do fluxo de caixa e capital de giro para saúde financeira.',
-    imagem: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400&q=80'
+    icon: FaBook,
+    duracao: '2-3 horas'
   },
   {
     id: 5,
     titulo: 'Fontes de Financiamento e Investimentos',
     descricao: 'Principais fontes de recursos e noções de investimento.',
-    imagem: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80'
+    icon: FaChartLine,
+    duracao: '3-4 horas'
   },
   {
     id: 6,
     titulo: 'Indicadores de Desempenho Financeiro e Tomada de Decisão',
     descricao: 'Como usar indicadores para decisões estratégicas.',
-    imagem: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80'
+    icon: FaChartLine,
+    duracao: '3-4 horas'
   }
 ];
-
-import ModuloCurso from './ModuloCurso';
 
 export default function HomeCurso() {
   const [progresso, setProgresso] = useState({});
@@ -53,23 +56,35 @@ export default function HomeCurso() {
 
   useEffect(() => {
     async function fetchProgresso() {
-      if (!usuario) return;
-      const res = await fetch(`${API_URL}/quiz/progresso?usuario_id=${usuario.id}`);
-      const data = await res.json();
-      const prog = {};
-      data.forEach(p => {
-        prog[p.modulo_id] = { acertos: p.acertos, total: p.total };
-      });
-      setProgresso(prog);
+      if (!usuario) {
+        console.error('Usuário não encontrado');
+        return;
+      }
+      
+      const urlApi = `${API_URL}/quiz/progresso?usuario_id=${usuario.id}`;
+      console.log('Buscando progresso em:', urlApi);
+      
+      try {
+        const res = await fetch(urlApi);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        console.log('Dados de progresso recebidos:', data);
+        
+        const prog = {};
+        data.forEach(p => {
+          prog[p.modulo_id] = { acertos: p.acertos, total: p.total };
+        });
+        setProgresso(prog);
+        console.log('Progresso atualizado:', prog);
+      } catch (error) {
+        console.error('Erro ao buscar progresso:', error);
+      }
     }
     fetchProgresso();
-  }, [usuario, atualizar]);
-
-  // Função para ser chamada ao finalizar quiz
-  function handleQuizFinalizado() {
-    setAtualizar(a => a + 1);
-  }
-
+  }, [usuario, API_URL, atualizar]);
 
   // Cálculo do progresso geral do aluno
   let totalRespondidas = 0;
@@ -83,103 +98,132 @@ export default function HomeCurso() {
   const percent = totalPerguntas > 0 ? Math.round((totalRespondidas / totalPerguntas) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 flex flex-row items-start py-10">
-      {/* Cronograma como aba lateral */}
-      <aside className="sticky top-10 left-0 h-fit bg-white rounded-xl shadow border border-blue-200 p-5 ml-4 mr-8 w-72 flex flex-col items-center animate-fade-in" style={{ fontFamily: 'Inter, Arial, Helvetica, sans-serif' }}>
-        <h2 className="text-lg font-bold mb-4 tracking-wide" style={{ color: '#222', fontFamily: 'Inter, Arial, Helvetica, sans-serif', letterSpacing: '0.5px' }}>Cronograma</h2>
-        <table className="w-full text-left border-separate border-spacing-y-1 text-[15px]">
-          <thead>
-            <tr>
-              <th className="border-b border-blue-100 pb-1 font-semibold text-gray-700">Módulo</th>
-              <th className="border-b border-blue-100 pb-1 font-semibold text-gray-700">Tema</th>
-              <th className="border-b border-blue-100 pb-1 font-semibold text-gray-700">Duração</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="py-1 font-bold text-blue-900">1</td>
-              <td className="text-gray-700">Introdução</td>
-              <td className="text-blue-700">1 sem</td>
-            </tr>
-            <tr>
-              <td className="py-1 font-bold text-blue-900">2</td>
-              <td className="text-gray-700">Planejamento</td>
-              <td className="text-blue-700">1 sem</td>
-            </tr>
-            <tr>
-              <td className="py-1 font-bold text-blue-900">3</td>
-              <td className="text-gray-700">Análise</td>
-              <td className="text-blue-700">2 sem</td>
-            </tr>
-            <tr>
-              <td className="py-1 font-bold text-blue-900">4</td>
-              <td className="text-gray-700">Fluxo de Caixa</td>
-              <td className="text-blue-700">1 sem</td>
-            </tr>
-            <tr>
-              <td className="py-1 font-bold text-blue-900">5</td>
-              <td className="text-gray-700">Financiamento</td>
-              <td className="text-blue-700">2 sem</td>
-            </tr>
-            <tr>
-              <td className="py-1 font-bold text-blue-900">6</td>
-              <td className="text-gray-700">Indicadores</td>
-              <td className="text-blue-700">1 sem</td>
-            </tr>
-          </tbody>
-        </table>
-
-        {/* Progresso do aluno abaixo do cronograma */}
-        <div className="w-full mt-8 p-3 rounded-xl bg-blue-50 border border-blue-200 shadow animate-fade-in">
-          <div className="text-base font-semibold text-blue-700 mb-2">Seu Progresso</div>
-          <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
-            <div className="bg-blue-500 h-3 rounded-full transition-all duration-300" style={{ width: `${percent}%` }}></div>
-          </div>
-          <div className="text-right text-xs text-gray-700">{totalRespondidas} de {totalPerguntas} questões respondidas ({percent}%)</div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-900 flex flex-col items-center py-12 px-4">
+      {/* Header Principal */}
+      <div className="w-full max-w-6xl mb-12">
+        <div className="bg-gradient-to-r from-gray-800 to-slate-800 rounded-2xl shadow-2xl p-10 text-white border border-gray-700">
+          <h1 className="text-5xl font-bold mb-4">Curso de Gestão Financeira</h1>
+          <p className="text-gray-300 text-lg">Módulos completos com conteúdo profissional e avaliações práticas</p>
         </div>
-      </aside>
+      </div>
 
-      <div className="flex-1 flex flex-col items-center">
-  <h1 className="text-4xl font-extrabold mb-10" style={{ color: '#222', fontFamily: 'Inter, Arial, Helvetica, sans-serif', letterSpacing: '1px' }}>Curso de Gestão Financeira</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+      {/* Seção de Progresso Geral */}
+      <div className="w-full max-w-6xl mb-12">
+        <div className="bg-white rounded-xl shadow-2xl p-8 border border-gray-200">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
+              <FaChartLine className="text-gray-700" />
+              Seu Progresso Geral
+            </h2>
+            <div className="text-3xl font-bold text-gray-700">{percent}%</div>
+          </div>
+
+          <div className="mb-6">
+            <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden shadow-md">
+              <div 
+                className="bg-gradient-to-r from-gray-600 to-slate-600 h-6 rounded-full transition-all duration-500 flex items-center justify-end pr-2"
+                style={{ width: `${percent}%` }}
+              >
+                {percent > 10 && <span className="text-white font-bold text-sm">{percent}%</span>}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <div className="bg-gray-50 rounded-lg p-4 text-center border-2 border-gray-200">
+              <div className="text-sm text-gray-600 mb-1">Questões Respondidas</div>
+              <div className="text-3xl font-bold text-gray-700">{totalRespondidas}</div>
+              <div className="text-sm text-gray-500">de {totalPerguntas}</div>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-4 text-center border-2 border-gray-200">
+              <div className="text-sm text-gray-600 mb-1">Taxa de Acerto</div>
+              <div className="text-3xl font-bold text-gray-700">{percent}%</div>
+              <div className="text-sm text-gray-500">Desempenho</div>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-4 text-center border-2 border-gray-200">
+              <div className="text-sm text-gray-600 mb-1">Módulos Iniciados</div>
+              <div className="text-3xl font-bold text-gray-700">{Object.keys(progresso).length}</div>
+              <div className="text-sm text-gray-500">de 6</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Grid de Módulos */}
+      <div className="w-full max-w-6xl mb-12">
+        <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+          <FaBook /> Módulos Disponíveis
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {modulos.map(modulo => {
             const prog = progresso[modulo.id];
-            let percent = 0;
-            if (prog && prog.total > 0) percent = Math.round((prog.acertos / prog.total) * 100);
+            const percentModulo = prog && prog.total > 0 ? Math.round((prog.acertos / prog.total) * 100) : 0;
+            const completo = prog && prog.total > 0 && prog.acertos === prog.total;
+            const IconComponent = modulo.icon;
+
             return (
-              <Link
-                key={modulo.id}
-                to={`/modulo/${modulo.id}`}
-                className="block bg-white rounded-xl shadow-lg p-6 hover:bg-blue-50 transition border border-blue-200"
-                // ...sem state, navegação padrão
-              >
-                <img
-                  src={modulo.imagem}
-                  alt={modulo.titulo}
-                  className="w-full h-32 object-cover rounded-md mb-4 border border-blue-100"
-                  onError={e => { e.target.style.display = 'none'; }}
-                />
-                <h2 className="text-xl font-semibold text-blue-700 mb-2">{modulo.titulo}</h2>
-                <p className="text-gray-700 mb-2">{modulo.descricao}</p>
-                {/* Barra de progresso do quiz */}
-                <div className="mt-2">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-xs text-gray-600">Progresso do Quiz</span>
-                    <span className="text-xs text-blue-700 font-semibold">{percent}%</span>
+              <Link key={modulo.id} to={`/modulo/${modulo.id}`} className="no-underline group">
+                <div className={`bg-white rounded-xl shadow-lg p-6 transition-all hover:shadow-2xl hover:scale-105 cursor-pointer h-full ${completo ? 'border-2 border-green-500 bg-green-50' : 'border border-gray-200'}`}>
+                  {/* Header do Card */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`p-3 rounded-lg ${completo ? 'bg-green-100' : 'bg-gray-100'}`}>
+                        <IconComponent className={`text-xl ${completo ? 'text-green-600' : 'text-gray-700'}`} />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-800 text-sm leading-tight">{modulo.titulo}</h3>
+                      </div>
+                    </div>
+                    {completo && <FaCheckCircle className="text-green-500 text-xl flex-shrink-0" />}
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-green-500 h-2 rounded-full transition-all duration-300" style={{ width: `${percent}%` }}></div>
+
+                  {/* Descrição */}
+                  <p className="text-gray-600 text-sm mb-4">{modulo.descricao}</p>
+
+                  {/* Duração */}
+                  <div className="text-xs text-gray-500 flex items-center gap-2 mb-4">
+                    <FaClock className="text-xs" />
+                    {modulo.duracao}
                   </div>
-                  <div className="text-right text-xs text-gray-500 mt-1">{prog ? `${prog.acertos} / ${prog.total}` : '0 / 0'}</div>
+
+                  {/* Barra de Progresso */}
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs font-semibold text-gray-600">Progresso</span>
+                      <span className="text-xs font-bold text-gray-700">{percentModulo}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                      <div 
+                        className={`h-2 rounded-full transition-all duration-300 ${completo ? 'bg-green-500' : 'bg-gray-600'}`}
+                        style={{ width: `${percentModulo}%` }}
+                      />
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1 text-right">
+                      {prog ? `${prog.acertos}/${prog.total} questões` : 'Não iniciado'}
+                    </div>
+                  </div>
+
+                  {/* Badge de Status */}
+                  {completo && (
+                    <div className="mt-4 pt-3 border-t border-green-200">
+                      <div className="text-xs font-semibold text-green-700 text-center">✓ Módulo Concluído</div>
+                    </div>
+                  )}
                 </div>
               </Link>
             );
           })}
         </div>
       </div>
-      {/* Área de anotações do aluno */}
-  {/* Removido NotasAluno fixo, agora é flutuante */}
-  <NotasAlunoToggle />
+
+      {/* Info Footer */}
+      <div className="w-full max-w-6xl bg-gray-800 rounded-xl p-6 text-center text-gray-300 text-sm border border-gray-700 mb-12">
+        💡 <strong>Dica:</strong> Complete todos os módulos para obter a declaração de conclusão do curso. Acesse "Área do Aluno" para acompanhar seu progresso detalhado.
+      </div>
+
+      {/* Notas flutuantes */}
+      <NotasAlunoToggle />
     </div>
   );
 }
