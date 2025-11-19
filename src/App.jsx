@@ -6,6 +6,7 @@ import ModuloCurso from './components/ModuloCurso';
 import Login from './components/Login';
 import CadastroUsuario from './components/CadastroUsuario';
 import AreaAluno from './components/AreaAluno';
+import DeclaracaoConclusao from './components/DeclaracaoConclusao';
 
 export default function App() {
   const [usuario, setUsuario] = useState(() => {
@@ -29,23 +30,24 @@ export default function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-        <nav className="flex gap-4 p-1 bg-blue-100 mb-2 items-center">
+        <nav className="flex gap-4 p-4 bg-gradient-to-r from-blue-900 to-cyan-600 shadow-lg rounded-lg items-center">
           <img
             src="/logo.png"
             alt="Logo"
-            className="h-14 w-14 object-contain mr-3"
-            style={{ minWidth: 100 }}
+            className="h-20 w-20 object-contain mr-3"
+            style={{ minWidth: 150 }}
           />
-    <Link to="/curso" className="text-green-700 font-bold hover:underline">Gestão Financeira</Link>
-    <Link to="/aluno" className="text-blue-700 font-bold hover:underline">Área do Aluno</Link>
-          <span className="ml-auto flex items-center gap-2 text-gray-700 font-semibold">
+          <Link to="/curso" className="bg-green-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-800 shadow-md">Gestão Financeira</Link>
+          <Link to="/aluno" className="bg-blue-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-800 shadow-md">Área do Aluno</Link>
+          <Link to="/declaracao" className="bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 shadow-md">Declaração de Conclusão</Link>
+          <span className="ml-auto flex items-center gap-2 text-gray-200 font-semibold">
             {usuario?.nome}
             <button
               onClick={() => {
                 setUsuario(null);
                 localStorage.removeItem('usuario');
               }}
-              className="ml-4 text-red-500 font-semibold"
+              className="ml-4 text-red-500 font-semibold hover:underline"
             >
               Sair
             </button>
@@ -56,6 +58,7 @@ export default function App() {
             <Route path="/curso" element={<HomeCurso />} />
             <Route path="/modulo/:id" element={<ModuloCurso />} />
             <Route path="/aluno" element={<AreaAluno />} />
+            <Route path="/declaracao" element={<DeclaracaoConclusao usuario={usuario} />} />
             <Route path="*" element={<HomeCurso />} />
           </Routes>
         </main>

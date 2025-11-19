@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaBook, FaCheckCircle, FaClock, FaTrophy, FaFileDownload, FaChartLine, FaMedal } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import DeclaracaoConclusao from './DeclaracaoConclusao';
+import AnaliseDemonstrativosContabeis from './AnaliseDemonstrativosContabeis';
 
 const modulos = [
   { id: 1, titulo: 'Introdução à Gestão Financeira', icon: FaBook },
@@ -40,11 +41,15 @@ export default function AreaAluno() {
         const prog = {};
         let totalRespondidas = 0;
         let totalPerguntas = 0;
+
         data.forEach(p => {
-          prog[p.modulo_id] = { acertos: p.acertos, total: p.total };
-          totalRespondidas += p.acertos;
-          totalPerguntas += p.total;
+          if (p.modulo_id) {
+            prog[p.modulo_id] = { acertos: p.acertos, total: p.total };
+          }
+          totalRespondidas += p.acertos || 0;
+          totalPerguntas += p.total || 0;
         });
+
         prog._totalRespondidas = totalRespondidas;
         prog._totalPerguntas = totalPerguntas;
         setProgresso(prog);
@@ -148,6 +153,13 @@ export default function AreaAluno() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {modulos.map((modulo) => {
+            if (modulo.id === 3) {
+              return (
+                <div key={modulo.id} className="col-span-1 md:col-span-2">
+                  <AnaliseDemonstrativosContabeis />
+                </div>
+              );
+            }
             const prog = progresso[modulo.id];
             const percentModulo = prog && prog.total > 0 ? Math.round((prog.acertos / prog.total) * 100) : 0;
             const IconComponent = modulo.icon;

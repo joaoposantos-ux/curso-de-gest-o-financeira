@@ -858,7 +858,7 @@ export default function QuizModulo({ moduloId, onFinish }) {
             <div>
               <div className="text-sm text-gray-600 mb-1">Status</div>
               <div className={`text-2xl font-bold ${aprovado ? 'text-green-600' : 'text-orange-600'}`}>
-                {aprovado ? '✓' : 'Repe'}
+                {aprovado ? '✓' : 'Repetir'}
               </div>
               <div className="text-xs text-gray-500">{aprovado ? 'Aprovado' : 'Repetir'}</div>
             </div>

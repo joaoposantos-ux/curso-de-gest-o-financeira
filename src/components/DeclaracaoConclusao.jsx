@@ -3,7 +3,7 @@ import { FaArrowLeft, FaFilePdf } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
-export default function DeclaracaoConclusao({ usuario, onVoltar }) {
+export default function DeclaracaoConclusao({ usuario }) {
   const declaracaoRef = useRef(null);
   const dataAtual = new Date().toLocaleDateString('pt-BR');
   const mesAno = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
@@ -39,10 +39,10 @@ export default function DeclaracaoConclusao({ usuario, onVoltar }) {
       {/* Header */}
       <div className="w-full max-w-4xl mb-8">
         <button
-          onClick={onVoltar}
-          className="flex items-center gap-2 text-white hover:text-blue-300 transition mb-6 font-semibold"
+          onClick={() => window.location.href = '/curso'}
+          className="flex items-center gap-2 text-white hover:text-green-300 transition mb-6 font-semibold"
         >
-          <FaArrowLeft /> Voltar para Área do Aluno
+          <FaArrowLeft /> Voltar para Gestão Financeira
         </button>
       </div>
 
@@ -112,24 +112,14 @@ export default function DeclaracaoConclusao({ usuario, onVoltar }) {
               </p>
             </div>
 
-            {/* Data e Assinatura */}
-            <div className="pt-6 mt-8">
-              <p className="text-center text-gray-600 mb-12">
-                Emitido em {dataAtual}
-              </p>
+            {/* Assinatura e Data */}
+            <div className="mt-12 text-center">
+              <p className="text-lg text-gray-600">Assinatura:</p>
+              <div className="border-t border-gray-400 w-1/2 mx-auto mt-2"></div>
+            </div>
 
-              <div className="grid grid-cols-2 gap-8">
-                <div className="text-center">
-                  <div className="border-t-2 border-gray-800 pt-2 text-sm">
-                    <p className="font-semibold text-gray-800">Coordenação do Curso</p>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="border-t-2 border-gray-800 pt-2 text-sm">
-                    <p className="font-semibold text-gray-800">Direção Acadêmica</p>
-                  </div>
-                </div>
-              </div>
+            <div className="mt-6 text-right">
+              <p className="text-sm text-gray-500">Data: {dataAtual}</p>
             </div>
 
             {/* Autenticação */}
@@ -150,7 +140,7 @@ export default function DeclaracaoConclusao({ usuario, onVoltar }) {
           <FaFilePdf className="text-xl" /> Baixar PDF
         </button>
         <button
-          onClick={onVoltar}
+          onClick={() => window.location.href = '/curso'}
           className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-4 px-6 rounded-lg transition shadow-lg"
         >
           Voltar
