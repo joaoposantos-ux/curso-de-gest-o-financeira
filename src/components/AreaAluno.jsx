@@ -153,13 +153,6 @@ export default function AreaAluno() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {modulos.map((modulo) => {
-            if (modulo.id === 3) {
-              return (
-                <div key={modulo.id} className="col-span-1 md:col-span-2">
-                  <AnaliseDemonstrativosContabeis />
-                </div>
-              );
-            }
             const prog = progresso[modulo.id];
             const percentModulo = prog && prog.total > 0 ? Math.round((prog.acertos / prog.total) * 100) : 0;
             const IconComponent = modulo.icon;
