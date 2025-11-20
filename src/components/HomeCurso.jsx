@@ -21,9 +21,9 @@ const modulos = [
   {
     id: 3,
     titulo: 'Análise de Demonstrativos Contábeis',
-    descricao: 'Entenda balanço patrimonial, DRE e outros relatórios.',
+    descricao: 'Fundamentos essenciais para entender a gestão financeira.',
     icon: FaBook,
-    duracao: '3-4 horas'
+    duracao: '2-3 horas'
   },
   {
     id: 4,
@@ -162,20 +162,20 @@ export default function HomeCurso() {
             const completo = prog && prog.total > 0 && prog.acertos === prog.total;
             const IconComponent = modulo.icon;
 
+            // Força o card do módulo 3 a ser igual aos demais
             return (
               <Link key={modulo.id} to={`/modulo/${modulo.id}`} className="no-underline group">
-                <div className={`bg-white rounded-xl shadow-lg p-6 transition-all hover:shadow-2xl hover:scale-105 cursor-pointer h-full ${completo ? 'border-2 border-green-500 bg-green-50' : 'border border-gray-200'}`}>
+                <div className={`bg-white rounded-xl shadow-lg p-6 transition-all hover:shadow-2xl hover:scale-105 cursor-pointer h-full border border-gray-200`}> {/* Remove destaque especial */}
                   {/* Header do Card */}
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <div className={`p-3 rounded-lg ${completo ? 'bg-green-100' : 'bg-gray-100'}`}>
-                        <IconComponent className={`text-xl ${completo ? 'text-green-600' : 'text-gray-700'}`} />
+                      <div className="p-3 rounded-lg bg-gray-100">
+                        <IconComponent className="text-xl text-gray-700" />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-gray-800 text-sm leading-tight">{modulo.titulo}</h3>
                       </div>
                     </div>
-                    {completo && <FaCheckCircle className="text-green-500 text-xl flex-shrink-0" />}
                   </div>
 
                   {/* Descrição */}
@@ -195,7 +195,7 @@ export default function HomeCurso() {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                       <div 
-                        className={`h-2 rounded-full transition-all duration-300 ${completo ? 'bg-green-500' : 'bg-gray-600'}`}
+                        className="h-2 rounded-full transition-all duration-300 bg-gray-600"
                         style={{ width: `${percentModulo}%` }}
                       />
                     </div>
@@ -203,13 +203,6 @@ export default function HomeCurso() {
                       {prog ? `${prog.acertos}/${prog.total} questões` : 'Não iniciado'}
                     </div>
                   </div>
-
-                  {/* Badge de Status */}
-                  {completo && (
-                    <div className="mt-4 pt-3 border-t border-green-200">
-                      <div className="text-xs font-semibold text-green-700 text-center">✓ Módulo Concluído</div>
-                    </div>
-                  )}
                 </div>
               </Link>
             );
