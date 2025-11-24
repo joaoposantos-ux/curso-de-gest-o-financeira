@@ -547,6 +547,52 @@ app.get('/quiz/progresso', async (req, res) => {
   }
 });
 
+// Dashboard do Gestor - Dados consolidados
+app.get('/dashboard/dados', async (req, res) => {
+  try {
+    const pool = await sql.connect(sqlConfig);
+    
+    // Buscar todos os usuários (exceto admins se quiser filtrar, mas vamos trazer todos)
+    const usersResult = await pool.request().query('SELECT id, nome, email, foto, admin FROM gf_usuarios');
+    const users = usersResult.recordset;
+
+    // Buscar todo o progresso
+    const progressResult = await pool.request().query('SELECT * FROM gf_quiz_progresso');
+    const progress = progressResult.recordset;
+
+    // Processar dados
+    const dashboardData = users.map(user => {
+      const userProgress = progress.filter(p => p.usuario_id === user.id);
+      
+      const totalModulos = 6; // Assumindo 6 módulos fixos do curso
+      const modulosConcluidos = userProgress.length;
+      // Limitar a 100%
+      const progressoGeral = Math.min(Math.round((modulosConcluidos / totalModulos) * 100), 100);
+      
+      let totalAcertos = 0;
+      let totalQuestoes = 0;
+      
+      userProgress.forEach(p => {
+        totalAcertos += p.acertos;
+        totalQuestoes += p.total;
+      });
+
+      const mediaNotas = totalQuestoes > 0 ? Math.round((totalAcertos / totalQuestoes) * 100) : 0;
+
+      return {
+        ...user,
+        progresso: progressoGeral,
+        media: mediaNotas,
+        modulos_concluidos: modulosConcluidos
+      };
+    });
+
+    res.json(dashboardData);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.use('/uploads', express.static(uploadDir));
 
 cron.schedule('35 14 * * 1-5', () => {
