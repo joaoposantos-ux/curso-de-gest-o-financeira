@@ -56,6 +56,8 @@ export default function AreaAluno() {
 
         prog._totalRespondidas = totalRespondidas;
         prog._totalPerguntas = totalPerguntas;
+        // Contar apenas chaves numéricas (IDs dos módulos)
+        prog._modulosConcluidos = Object.keys(prog).filter(k => !isNaN(k)).length;
         setProgresso(prog);
         console.log('Progresso atualizado:', prog);
       } catch (error) {
@@ -65,7 +67,14 @@ export default function AreaAluno() {
     fetchProgresso();
   }, [usuario, API_URL]);
 
-  const percent = progresso._totalPerguntas > 0 ? Math.round((progresso._totalRespondidas / progresso._totalPerguntas) * 100) : 0;
+  // Cálculo do progresso baseado na conclusão de módulos (Total: 6)
+  const totalModulos = 6;
+  const modulosConcluidos = progresso._modulosConcluidos || 0;
+  const percent = Math.round((modulosConcluidos / totalModulos) * 100);
+  
+  // Média de acertos (opcional, para exibição)
+  const mediaAcertos = progresso._totalPerguntas > 0 ? Math.round((progresso._totalRespondidas / progresso._totalPerguntas) * 100) : 0;
+
   const podeEmitirDeclaracao = percent === 100;
 
   if (mostraDeclaracao) {

@@ -90,16 +90,10 @@ export default function HomeCurso() {
 		fetchProgresso();
 	}, [usuario, API_URL, atualizar]);
 
-	// Cálculo do progresso geral do aluno
-	let totalRespondidas = 0;
-	let totalPerguntas = 0;
-	Object.values(progresso).forEach(p => {
-		if (p && typeof p === 'object') {
-			totalRespondidas += p.acertos || 0;
-			totalPerguntas += p.total || 0;
-		}
-	});
-	const percent = totalPerguntas > 0 ? Math.round((totalRespondidas / totalPerguntas) * 100) : 0;
+	// Cálculo do progresso geral do aluno (Baseado em 6 módulos)
+	const totalModulos = 6;
+	const modulosConcluidos = Object.keys(progresso).length;
+	const percent = Math.round((modulosConcluidos / totalModulos) * 100);
 
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-900 flex flex-col items-center py-12 px-4">
