@@ -351,19 +351,23 @@ export default function QuizModulo({ moduloId, onFinish }) {
     try {
       const response = await fetch(urlApi, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Bypass-Tunnel-Reminder': 'true'
+        },
         body: JSON.stringify(dados)
       });
       
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(`Erro ${response.status}: ${errorText}`);
       }
       
       const result = await response.json();
       console.log('Progresso salvo com sucesso:', result);
     } catch (error) {
       console.error('Erro ao salvar progresso:', error);
-      alert('Erro ao salvar progresso. Verifique a conexão com o servidor.');
+      alert(`Erro ao salvar progresso: ${error.message}`);
     }
     setSalvando(false);
   }

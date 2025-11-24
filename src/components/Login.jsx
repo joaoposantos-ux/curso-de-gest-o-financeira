@@ -11,7 +11,10 @@ const API_URL = import.meta.env.VITE_API_URL;
     e.preventDefault();
     const res = await fetch(`${API_URL}/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Bypass-Tunnel-Reminder': 'true'
+      },
       body: JSON.stringify(form),
     });
     const data = await res.json();

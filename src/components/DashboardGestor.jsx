@@ -22,7 +22,9 @@ export default function DashboardGestor() {
 
   const fetchDashboardData = async () => {
     try {
-      const res = await fetch(`${API_URL}/dashboard/dados`);
+      const res = await fetch(`${API_URL}/dashboard/dados`, {
+        headers: { 'Bypass-Tunnel-Reminder': 'true' }
+      });
       if (!res.ok) throw new Error('Falha ao buscar dados');
       const data = await res.json();
       setUsuarios(data);
@@ -43,7 +45,10 @@ export default function DashboardGestor() {
     try {
       const res = await fetch(`${API_URL}/usuarios/${user.id}/admin`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Bypass-Tunnel-Reminder': 'true'
+        },
         body: JSON.stringify({ admin: novoStatus, senhaMestra: senha })
       });
 

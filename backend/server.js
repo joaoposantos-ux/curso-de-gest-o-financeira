@@ -515,17 +515,32 @@ app.post('/quiz/progresso', async (req, res) => {
     request.input('total', sql.Int, total);
     request.input('data_finalizacao', sql.DateTime, new Date());
 
-    // Merge (Upsert) logic for SQL Server
-    await request.query(`
-      MERGE gf_quiz_progresso AS target
-      USING (SELECT @usuario_id AS usuario_id, @modulo_id AS modulo_id) AS source
-      ON (target.usuario_id = source.usuario_id AND target.modulo_id = source.modulo_id)
-      WHEN MATCHED THEN
-        UPDATE SET acertos = @acertos, total = @total, data_finalizacao = @data_finalizacao
-      WHEN NOT MATCHED THEN
-        INSERT (usuario_id, modulo_id, acertos, total, data_finalizacao)
-        VALUES (@usuario_id, @modulo_id, @acertos, @total, @data_finalizacao);
-    `);
+    // Check if record exists
+    const check = await pool.request()
+      .input('usuario_id', sql.Int, usuario_id)
+      .input('modulo_id', sql.Int, modulo_id)
+      .query('SELECT id FROM gf_quiz_progresso WHERE usuario_id = @usuario_id AND modulo_id = @modulo_id');
+
+    if (check.recordset.length > 0) {
+      // Update
+      await pool.request()
+        .input('usuario_id', sql.Int, usuario_id)
+        .input('modulo_id', sql.Int, modulo_id)
+        .input('acertos', sql.Int, acertos)
+        .input('total', sql.Int, total)
+        .input('data_finalizacao', sql.DateTime, new Date())
+        .query('UPDATE gf_quiz_progresso SET acertos = @acertos, total = @total, data_finalizacao = @data_finalizacao WHERE usuario_id = @usuario_id AND modulo_id = @modulo_id');
+    } else {
+      // Insert
+      await pool.request()
+        .input('usuario_id', sql.Int, usuario_id)
+        .input('modulo_id', sql.Int, modulo_id)
+        .input('acertos', sql.Int, acertos)
+        .input('total', sql.Int, total)
+        .input('data_finalizacao', sql.DateTime, new Date())
+        .query('INSERT INTO gf_quiz_progresso (usuario_id, modulo_id, acertos, total, data_finalizacao) VALUES (@usuario_id, @modulo_id, @acertos, @total, @data_finalizacao)');
+    }
+    
     res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ error: err.message });

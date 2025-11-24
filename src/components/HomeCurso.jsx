@@ -65,7 +65,11 @@ export default function HomeCurso() {
 			console.log('Buscando progresso em:', urlApi);
 			
 			try {
-				const res = await fetch(urlApi);
+				const res = await fetch(urlApi, {
+					headers: { 
+						'Bypass-Tunnel-Reminder': 'true'
+					}
+				});
 				if (!res.ok) {
 					throw new Error(`HTTP error! status: ${res.status}`);
 				}
