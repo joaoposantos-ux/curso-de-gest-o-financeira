@@ -653,49 +653,91 @@ export default function ModuloCurso() {
       </div>
 
       {/* Header do Módulo */}
-      <div className="w-full max-w-4xl bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl shadow-2xl p-8 mb-8 text-white">
-        <div className="flex items-start gap-4 mb-4">
-          <div className="bg-blue-500 rounded-lg p-3">
-            <FaBook className="text-2xl" />
+      <div className="w-full max-w-4xl bg-gradient-to-r from-blue-700 to-blue-900 rounded-2xl shadow-2xl p-10 mb-10 text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-cyan-400 opacity-10 rounded-full -ml-10 -mb-10 blur-2xl"></div>
+        
+        <div className="relative z-10 flex items-start gap-6">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 shadow-inner border border-white/20">
+            <FaBook className="text-3xl text-cyan-300" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold mb-2">{modulo.titulo}</h1>
-            <p className="text-blue-100 flex items-center gap-2">
-              ⏱️ Tempo estimado: {modulo.cronograma}
-            </p>
+            <h1 className="text-4xl font-bold mb-3 tracking-tight text-white">{modulo.titulo}</h1>
+            <div className="flex items-center gap-4 text-blue-100">
+              <span className="flex items-center gap-2 bg-blue-800/50 px-3 py-1 rounded-full text-sm border border-blue-700/50">
+                ⏱️ Tempo estimado: {modulo.cronograma}
+              </span>
+              <span className="flex items-center gap-2 bg-blue-800/50 px-3 py-1 rounded-full text-sm border border-blue-700/50">
+                📚 Módulo {modulo.id}
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Conteúdo do Módulo */}
-      <div className="w-full max-w-4xl bg-white rounded-xl shadow-2xl p-10 mb-8">
-        <div className="prose prose-sm max-w-none">
+      <div className="w-full max-w-4xl bg-white rounded-xl shadow-2xl p-12 mb-8 border border-gray-100">
+        <div className="prose prose-lg max-w-none text-gray-700">
           {modulo.texto.split('\n').map((linha, idx) => {
+            // Função para processar negrito inline (**texto**)
+            const processarTexto = (texto) => {
+              const partes = texto.split(/(\*\*.*?\*\*)/);
+              return partes.map((parte, i) => {
+                if (parte.startsWith('**') && parte.endsWith('**')) {
+                  return <strong key={i} className="text-blue-900 font-bold">{parte.slice(2, -2)}</strong>;
+                }
+                return parte;
+              });
+            };
+
+            // Títulos H2 com estilo profissional e divisor
             if (linha.startsWith('## ')) {
-              return <h2 key={idx} className="text-2xl font-bold text-blue-700 mt-6 mb-4">{linha.replace('## ', '')}</h2>;
-            }
-            if (linha.startsWith('### ')) {
-              return <h3 key={idx} className="text-xl font-semibold text-gray-800 mt-4 mb-2">{linha.replace('### ', '')}</h3>;
-            }
-            if (linha.startsWith('- ')) {
-              return <li key={idx} className="ml-6 text-gray-700 mb-2">{linha.replace('- ', '')}</li>;
-            }
-            if (linha.startsWith('1. ') || linha.startsWith('2. ') || linha.startsWith('3. ') || 
-                linha.startsWith('4. ') || linha.startsWith('5. ') || linha.startsWith('6. ')) {
-              return <li key={idx} className="ml-6 text-gray-700 mb-2">{linha}</li>;
-            }
-            if (linha.startsWith('**') && linha.includes('**:')) {
-              const partes = linha.split('**:');
               return (
-                <p key={idx} className="text-gray-700 mb-2">
-                  <strong>{partes[0].replace(/\*\*/g, '')}</strong>:{partes[1]}
-                </p>
+                <div key={idx} className="mt-12 mb-6 pb-4 border-b-2 border-blue-100">
+                  <h2 className="text-3xl font-bold text-blue-800 tracking-tight">
+                    {linha.replace('## ', '')}
+                  </h2>
+                </div>
               );
             }
-            if (linha.trim() === '') {
-              return <br key={idx} />;
+
+            // Títulos H3 com cor de destaque
+            if (linha.startsWith('### ')) {
+              return (
+                <h3 key={idx} className="text-xl font-bold text-blue-700 mt-8 mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  {linha.replace('### ', '')}
+                </h3>
+              );
             }
-            return <p key={idx} className="text-gray-700 mb-3 leading-relaxed">{linha}</p>;
+
+            // Itens de lista com bullet personalizado
+            if (linha.startsWith('- ')) {
+              return (
+                <div key={idx} className="flex items-start mb-3 ml-4 group hover:bg-blue-50 p-2 rounded transition-colors">
+                  <span className="text-blue-500 mr-3 mt-1.5 text-xs transform group-hover:scale-125 transition-transform">●</span>
+                  <p className="text-gray-700 leading-relaxed text-lg">{processarTexto(linha.replace('- ', ''))}</p>
+                </div>
+              );
+            }
+
+            // Listas numeradas
+            if (/^\d+\.\s/.test(linha)) {
+               return (
+                <div key={idx} className="flex items-start mb-3 ml-4 group hover:bg-blue-50 p-2 rounded transition-colors">
+                  <span className="font-bold text-blue-600 mr-3 min-w-[1.5rem]">{linha.match(/^\d+\./)[0]}</span>
+                  <p className="text-gray-700 leading-relaxed text-lg">{processarTexto(linha.replace(/^\d+\.\s/, ''))}</p>
+                </div>
+              );
+            }
+            
+            // Linhas vazias como espaçamento
+            if (linha.trim() === '') {
+              return <div key={idx} className="h-2"></div>;
+            }
+
+            // Parágrafos padrão com tipografia melhorada
+            return <p key={idx} className="mb-4 leading-relaxed text-gray-700 text-lg text-justify">{processarTexto(linha)}</p>;
           })}
         </div>
 

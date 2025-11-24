@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const sqlite3 = require('sqlite3');
+const sql = require('mssql');
 const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const path = require('path');
@@ -11,69 +11,117 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = new sqlite3.Database('./os.db');
+// Configuração do SQL Server
+const sqlConfig = {
+  user: 'DB_A25210_firstservico_admin', 
+  password: '123mudar!@#', 
+  server: 'sql5046.site4now.net', 
+  database: 'DB_A25210_firstservico', 
+  options: {
+    encrypt: false,
+    trustServerCertificate: true
+  }
+};
 
-// Cria tabela se não existir
-db.run(`CREATE TABLE IF NOT EXISTS os (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  titulo TEXT,
-  descricao TEXT,
-  tipo TEXT,
-  status TEXT,
-  usuario_id INTEGER,
-  data_criacao TEXT,
-  cnpj TEXT,
-  empresa_solicitante TEXT,
-  telefone_solicitante TEXT,
-  usuario_responsavel_id INTEGER,
-  sistema_modulo_id INTEGER,
-  tela_funcionalidade_id INTEGER,
-  solucao_provisoria TEXT,
-  analise_desenvolvimento TEXT,   -- NOVO
-  solucao_proposta TEXT,          -- NOVO
-  FOREIGN KEY (usuario_responsavel_id) REFERENCES usuarios(id),
-  FOREIGN KEY (sistema_modulo_id) REFERENCES sistema_modulo(id),
-  FOREIGN KEY (tela_funcionalidade_id) REFERENCES tela_funcionalidade(id)
-)`);
+// Conectar ao banco e criar tabelas
+sql.connect(sqlConfig).then(pool => {
+  if (pool.connected) console.log("Conectado ao SQL Server");
 
+  const createTables = async () => {
+    try {
+      await pool.request().query(`
+        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='gf_usuarios' and xtype='U')
+        CREATE TABLE gf_usuarios (
+          id INT IDENTITY(1,1) PRIMARY KEY,
+          nome NVARCHAR(100),
+          email NVARCHAR(100) UNIQUE,
+          senha NVARCHAR(255),
+          telefone NVARCHAR(20),
+          foto NVARCHAR(MAX),
+          admin BIT DEFAULT 0
+        );
+      `);
 
-// Crie a tabela de usuários se não existir
-db.run(`CREATE TABLE IF NOT EXISTS usuarios (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nome TEXT,
-  email TEXT UNIQUE,
-  senha TEXT,
-  telefone TEXT,
-  foto TEXT,
-  admin INTEGER DEFAULT 0
-)`);
+      await pool.request().query(`
+        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='gf_sistema_modulo' and xtype='U')
+        CREATE TABLE gf_sistema_modulo (
+          id INT IDENTITY(1,1) PRIMARY KEY,
+          nome NVARCHAR(100) NOT NULL
+        );
+      `);
 
-// Crie a tabela de módulos do sistema se não existir
-db.run(`CREATE TABLE IF NOT EXISTS sistema_modulo (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nome TEXT NOT NULL
-)`);
+      await pool.request().query(`
+        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='gf_tela_funcionalidade' and xtype='U')
+        CREATE TABLE gf_tela_funcionalidade (
+          id INT IDENTITY(1,1) PRIMARY KEY,
+          nome NVARCHAR(100) NOT NULL,
+          sistema_modulo_id INT,
+          FOREIGN KEY (sistema_modulo_id) REFERENCES gf_sistema_modulo(id)
+        );
+      `);
 
-// Crie a tabela de telas/funcionalidades se não existir
-db.run(`CREATE TABLE IF NOT EXISTS tela_funcionalidade (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nome TEXT NOT NULL,
-  sistema_modulo_id INTEGER,
-  FOREIGN KEY (sistema_modulo_id) REFERENCES sistema_modulo(id)
-)`);
+      await pool.request().query(`
+        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='gf_os' and xtype='U')
+        CREATE TABLE gf_os (
+          id INT IDENTITY(1,1) PRIMARY KEY,
+          titulo NVARCHAR(255),
+          descricao NVARCHAR(MAX),
+          tipo NVARCHAR(50),
+          status NVARCHAR(50),
+          usuario_id INT,
+          data_criacao DATETIME,
+          cnpj NVARCHAR(20),
+          empresa_solicitante NVARCHAR(100),
+          telefone_solicitante NVARCHAR(20),
+          usuario_responsavel_id INT,
+          sistema_modulo_id INT,
+          tela_funcionalidade_id INT,
+          solucao_provisoria NVARCHAR(MAX),
+          analise_desenvolvimento NVARCHAR(MAX),
+          solucao_proposta NVARCHAR(MAX),
+          FOREIGN KEY (usuario_id) REFERENCES gf_usuarios(id),
+          FOREIGN KEY (usuario_responsavel_id) REFERENCES gf_usuarios(id),
+          FOREIGN KEY (sistema_modulo_id) REFERENCES gf_sistema_modulo(id),
+          FOREIGN KEY (tela_funcionalidade_id) REFERENCES gf_tela_funcionalidade(id)
+        );
+      `);
 
-// 1. Crie a tabela de evidências (imagens e vídeos) relacionadas à OS
-db.run(`CREATE TABLE IF NOT EXISTS os_evidencias (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  os_id INTEGER NOT NULL,
-  tipo TEXT NOT NULL, -- 'imagem' ou 'video'
-  nome_arquivo TEXT,
-  caminho_arquivo TEXT,
-  data_upload TEXT DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (os_id) REFERENCES os(id)
-)`);
+      await pool.request().query(`
+        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='gf_os_evidencias' and xtype='U')
+        CREATE TABLE gf_os_evidencias (
+          id INT IDENTITY(1,1) PRIMARY KEY,
+          os_id INT NOT NULL,
+          tipo NVARCHAR(50) NOT NULL,
+          nome_arquivo NVARCHAR(255),
+          caminho_arquivo NVARCHAR(255),
+          data_upload DATETIME DEFAULT GETDATE(),
+          FOREIGN KEY (os_id) REFERENCES gf_os(id)
+        );
+      `);
 
-// 3. Configuração do multer para salvar arquivos em /uploads
+      await pool.request().query(`
+        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='gf_quiz_progresso' and xtype='U')
+        CREATE TABLE gf_quiz_progresso (
+          id INT IDENTITY(1,1) PRIMARY KEY,
+          usuario_id INT NOT NULL,
+          modulo_id INT NOT NULL,
+          acertos INT DEFAULT 0,
+          total INT DEFAULT 0,
+          data_finalizacao DATETIME,
+          CONSTRAINT UQ_Quiz_Progresso UNIQUE(usuario_id, modulo_id)
+        );
+      `);
+      
+      console.log("Tabelas verificadas/criadas com sucesso.");
+    } catch (err) {
+      console.error("Erro ao criar tabelas:", err);
+    }
+  };
+
+  createTables();
+}).catch(err => console.error('Erro na conexão SQL Server:', err));
+
+// Configuração do multer
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 
@@ -81,239 +129,319 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
     const now = new Date();
-    const timestamp =
-      now.getFullYear() +
-      ('0' + (now.getMonth() + 1)).slice(-2) +
-      ('0' + now.getDate()).slice(-2) + '_' +
-      ('0' + now.getHours()).slice(-2) +
-      ('0' + now.getMinutes()).slice(-2) +
-      ('0' + now.getSeconds()).slice(-2);
+    const timestamp = now.toISOString().replace(/[-:.]/g, '');
     const ext = path.extname(file.originalname);
     cb(null, `${timestamp}${ext}`);
   }
 });
 const upload = multer({ storage });
-const uploadMemory = multer(); // memoryStorage por padrão
+const uploadMemory = multer();
 
-// Listar todas as OS com nome do usuário
-app.get('/os', (req, res) => {
-  db.all(
-    `SELECT os.*, 
-            u1.nome AS usuario_nome, 
-            u1.foto AS usuario_foto, 
-            u2.nome AS responsavel_nome,
-            u2.foto AS responsavel_foto
-     FROM os
-     LEFT JOIN usuarios u1 ON os.usuario_id = u1.id
-     LEFT JOIN usuarios u2 ON os.usuario_responsavel_id = u2.id`,
-    [],
-    (err, rows) => {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json(rows);
-    }
-  );
+// --- Endpoints ---
+
+// Listar todas as OS
+app.get('/os', async (req, res) => {
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request().query(`
+      SELECT gf_os.*, 
+             u1.nome AS usuario_nome, 
+             u1.foto AS usuario_foto, 
+             u2.nome AS responsavel_nome,
+             u2.foto AS responsavel_foto
+      FROM gf_os
+      LEFT JOIN gf_usuarios u1 ON gf_os.usuario_id = u1.id
+      LEFT JOIN gf_usuarios u2 ON gf_os.usuario_responsavel_id = u2.id
+    `);
+    res.json(result.recordset);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Criar nova OS
-app.post('/os', (req, res) => {
+app.post('/os', async (req, res) => {
   const {
     titulo, descricao, tipo, status, data_criacao, usuario_id, usuario_responsavel_id,
     cnpj, empresa_solicitante, telefone_solicitante,
     sistema_modulo_id, tela_funcionalidade_id, solucao_provisoria,
-    analise_desenvolvimento, solucao_proposta // NOVOS CAMPOS
+    analise_desenvolvimento, solucao_proposta
   } = req.body;
 
-  db.run(
-    `INSERT INTO os (titulo, descricao, tipo, status, data_criacao, usuario_id, usuario_responsavel_id, cnpj, empresa_solicitante, telefone_solicitante, sistema_modulo_id, tela_funcionalidade_id, solucao_provisoria, analise_desenvolvimento, solucao_proposta)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [titulo, descricao, tipo, status, data_criacao, usuario_id, usuario_responsavel_id, cnpj, empresa_solicitante, telefone_solicitante, sistema_modulo_id, tela_funcionalidade_id, solucao_provisoria, analise_desenvolvimento, solucao_proposta],
-    function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ id: this.lastID });
-    }
-  );
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const request = pool.request();
+    request.input('titulo', sql.NVarChar, titulo);
+    request.input('descricao', sql.NVarChar, descricao);
+    request.input('tipo', sql.NVarChar, tipo);
+    request.input('status', sql.NVarChar, status);
+    request.input('data_criacao', sql.DateTime, data_criacao ? new Date(data_criacao) : new Date());
+    request.input('usuario_id', sql.Int, usuario_id);
+    request.input('usuario_responsavel_id', sql.Int, usuario_responsavel_id);
+    request.input('cnpj', sql.NVarChar, cnpj);
+    request.input('empresa_solicitante', sql.NVarChar, empresa_solicitante);
+    request.input('telefone_solicitante', sql.NVarChar, telefone_solicitante);
+    request.input('sistema_modulo_id', sql.Int, sistema_modulo_id);
+    request.input('tela_funcionalidade_id', sql.Int, tela_funcionalidade_id);
+    request.input('solucao_provisoria', sql.NVarChar, solucao_provisoria);
+    request.input('analise_desenvolvimento', sql.NVarChar, analise_desenvolvimento);
+    request.input('solucao_proposta', sql.NVarChar, solucao_proposta);
+
+    const result = await request.query(`
+      INSERT INTO gf_os (titulo, descricao, tipo, status, data_criacao, usuario_id, usuario_responsavel_id, cnpj, empresa_solicitante, telefone_solicitante, sistema_modulo_id, tela_funcionalidade_id, solucao_provisoria, analise_desenvolvimento, solucao_proposta)
+      OUTPUT INSERTED.id
+      VALUES (@titulo, @descricao, @tipo, @status, @data_criacao, @usuario_id, @usuario_responsavel_id, @cnpj, @empresa_solicitante, @telefone_solicitante, @sistema_modulo_id, @tela_funcionalidade_id, @solucao_provisoria, @analise_desenvolvimento, @solucao_proposta)
+    `);
+    
+    res.json({ id: result.recordset[0].id });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Atualizar OS
-app.put('/os/:id', (req, res) => {
+app.put('/os/:id', async (req, res) => {
   const { id } = req.params;
-  const { titulo, descricao, tipo, status, data_criacao, usuario_id, usuario_responsavel_id, cnpj, empresa_solicitante, telefone_solicitante, sistema_modulo, tela_funcionalidade, solucao_provisoria } = req.body;
-  db.run(
-    `UPDATE os SET 
-      titulo = ?, 
-      descricao = ?, 
-      tipo = ?, 
-      status = ?, 
-      data_criacao = ?, 
-      usuario_id = ?, 
-      usuario_responsavel_id = ?, 
-      cnpj = ?, 
-      empresa_solicitante = ?, 
-      telefone_solicitante = ?
-    WHERE id = ?`,
-    [titulo, descricao, tipo, status, data_criacao, usuario_id, usuario_responsavel_id, cnpj, empresa_solicitante, telefone_solicitante, id],
-    function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ success: true });
-    }
-  );
+  const { titulo, descricao, tipo, status, data_criacao, usuario_id, usuario_responsavel_id, cnpj, empresa_solicitante, telefone_solicitante } = req.body;
+  
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const request = pool.request();
+    request.input('id', sql.Int, id);
+    request.input('titulo', sql.NVarChar, titulo);
+    request.input('descricao', sql.NVarChar, descricao);
+    request.input('tipo', sql.NVarChar, tipo);
+    request.input('status', sql.NVarChar, status);
+    request.input('data_criacao', sql.DateTime, data_criacao ? new Date(data_criacao) : null);
+    request.input('usuario_id', sql.Int, usuario_id);
+    request.input('usuario_responsavel_id', sql.Int, usuario_responsavel_id);
+    request.input('cnpj', sql.NVarChar, cnpj);
+    request.input('empresa_solicitante', sql.NVarChar, empresa_solicitante);
+    request.input('telefone_solicitante', sql.NVarChar, telefone_solicitante);
+
+    await request.query(`
+      UPDATE gf_os SET 
+        titulo = @titulo, 
+        descricao = @descricao, 
+        tipo = @tipo, 
+        status = @status, 
+        data_criacao = @data_criacao, 
+        usuario_id = @usuario_id, 
+        usuario_responsavel_id = @usuario_responsavel_id, 
+        cnpj = @cnpj, 
+        empresa_solicitante = @empresa_solicitante, 
+        telefone_solicitante = @telefone_solicitante
+      WHERE id = @id
+    `);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Deletar OS por ID
-app.delete('/os/:id', (req, res) => {
+// Deletar OS
+app.delete('/os/:id', async (req, res) => {
   const { id } = req.params;
-  db.run('DELETE FROM os WHERE id = ?', [id], function (err) {
-    if (err) return res.status(500).json({ error: err.message });
+  try {
+    const pool = await sql.connect(sqlConfig);
+    await pool.request().input('id', sql.Int, id).query('DELETE FROM gf_os WHERE id = @id');
     res.json({ success: true });
-  });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Cadastro de usuário
 app.post('/usuarios', uploadMemory.single('foto'), async (req, res) => {
   const { nome, email, senha, telefone, admin = 0 } = req.body;
   let fotoBase64 = null;
-  let fotoMime = null;
   if (req.file) {
     fotoBase64 = req.file.buffer.toString('base64');
-    fotoMime = req.file.mimetype; // Ex: 'image/png' ou 'image/jpeg'
   }
-  const hash = await bcrypt.hash(senha, 10);
-  db.run(
-    'INSERT INTO usuarios (nome, email, senha, telefone, foto, admin) VALUES (?, ?, ?, ?, ?, ?)',
-    [nome, email, hash, telefone, fotoBase64, admin],
-    function (err) {
-      if (err) return res.status(400).json({ error: 'E-mail já cadastrado.' });
-      res.json({ id: this.lastID, nome, email, telefone, foto: fotoBase64, admin });
-    }
-  );
+  
+  try {
+    const hash = await bcrypt.hash(senha, 10);
+    const pool = await sql.connect(sqlConfig);
+    const request = pool.request();
+    request.input('nome', sql.NVarChar, nome);
+    request.input('email', sql.NVarChar, email);
+    request.input('senha', sql.NVarChar, hash);
+    request.input('telefone', sql.NVarChar, telefone);
+    request.input('foto', sql.NVarChar, fotoBase64);
+    request.input('admin', sql.Bit, admin);
+
+    const result = await request.query(`
+      INSERT INTO gf_usuarios (nome, email, senha, telefone, foto, admin) 
+      OUTPUT INSERTED.id
+      VALUES (@nome, @email, @senha, @telefone, @foto, @admin)
+    `);
+    
+    res.json({ id: result.recordset[0].id, nome, email, telefone, foto: fotoBase64, admin });
+  } catch (err) {
+    res.status(400).json({ error: 'Erro ao cadastrar usuário. E-mail pode já existir.' });
+  }
 });
 
 // Login
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
   const { email, senha } = req.body;
-  db.get('SELECT * FROM usuarios WHERE email = ?', [email], async (err, user) => {
-    if (err || !user) return res.json({ error: 'Usuário não encontrado.' });
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request()
+      .input('email', sql.NVarChar, email)
+      .query('SELECT * FROM gf_usuarios WHERE email = @email');
+    
+    const user = result.recordset[0];
+    if (!user) return res.json({ error: 'Usuário não encontrado.' });
+
     const match = await bcrypt.compare(senha, user.senha);
     if (!match) return res.json({ error: 'Senha incorreta.' });
-    // Inclua o campo foto na resposta!
+
     res.json({
       id: user.id,
       nome: user.nome,
       email: user.email,
       telefone: user.telefone,
-      foto: user.foto || null, // <-- importante!
-        admin: user.admin
+      foto: user.foto || null,
+      admin: user.admin
     });
-  });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Editar usuário (dados e foto)
-app.put('/usuarios/:id', uploadMemory.single('foto'), (req, res) => {
+// Editar usuário
+app.put('/usuarios/:id', uploadMemory.single('foto'), async (req, res) => {
   const { nome, email, telefone } = req.body;
   let fotoBase64 = req.file ? req.file.buffer.toString('base64') : null;
+  const { id } = req.params;
 
-  let sql, params;
-  if (fotoBase64) {
-    sql = 'UPDATE usuarios SET nome=?, email=?, telefone=?, foto=? WHERE id=?';
-    params = [nome, email, telefone, fotoBase64, req.params.id];
-  } else {
-    sql = 'UPDATE usuarios SET nome=?, email=?, telefone=? WHERE id=?';
-    params = [nome, email, telefone, req.params.id];
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const request = pool.request();
+    request.input('id', sql.Int, id);
+    request.input('nome', sql.NVarChar, nome);
+    request.input('email', sql.NVarChar, email);
+    request.input('telefone', sql.NVarChar, telefone);
+
+    let sqlQuery = 'UPDATE gf_usuarios SET nome=@nome, email=@email, telefone=@telefone';
+    if (fotoBase64) {
+      request.input('foto', sql.NVarChar, fotoBase64);
+      sqlQuery += ', foto=@foto';
+    }
+    sqlQuery += ' WHERE id=@id';
+
+    await request.query(sqlQuery);
+
+    const userResult = await pool.request().input('id', sql.Int, id).query('SELECT id, nome, email, telefone, foto, admin FROM gf_usuarios WHERE id=@id');
+    res.json(userResult.recordset[0]);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao atualizar usuário.' });
   }
-
-  db.run(sql, params, function (err) {
-    if (err) return res.status(500).json({ error: 'Erro ao atualizar usuário.' });
-
-    db.get('SELECT id, nome, email, telefone, foto, admin FROM usuarios WHERE id=?', [req.params.id], (err, user) => {
-      if (err) return res.status(500).json({ error: 'Erro ao buscar usuário.' });
-      res.json(user);
-    });
-  });
 });
 
-app.patch('/os/:id/status', (req, res) => {
+// Patch Status OS
+app.patch('/os/:id/status', async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
-  db.run(
-    'UPDATE os SET status = ? WHERE id = ?',
-    [status, id],
-    function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ success: true });
-    }
-  );
+  try {
+    const pool = await sql.connect(sqlConfig);
+    await pool.request()
+      .input('id', sql.Int, id)
+      .input('status', sql.NVarChar, status)
+      .query('UPDATE gf_os SET status = @status WHERE id = @id');
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-app.patch('/os/:id/descricao', (req, res) => {
+// Patch Descrição OS
+app.patch('/os/:id/descricao', async (req, res) => {
   const { id } = req.params;
-  const {
-    descricao,
-    usuario_responsavel_id,
-    analise_desenvolvimento,   // NOVO
-    solucao_proposta           // NOVO
-  } = req.body;
+  const { descricao, usuario_responsavel_id, analise_desenvolvimento, solucao_proposta } = req.body;
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const request = pool.request();
+    request.input('id', sql.Int, id);
+    request.input('descricao', sql.NVarChar, descricao);
+    request.input('usuario_responsavel_id', sql.Int, usuario_responsavel_id);
+    request.input('analise_desenvolvimento', sql.NVarChar, analise_desenvolvimento);
+    request.input('solucao_proposta', sql.NVarChar, solucao_proposta);
 
-  db.run(
-    'UPDATE os SET descricao = ?, usuario_responsavel_id = ?, analise_desenvolvimento = ?, solucao_proposta = ? WHERE id = ?',
-    [descricao, usuario_responsavel_id, analise_desenvolvimento, solucao_proposta, id],
-    function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ success: true });
-    }
-  );
+    await request.query('UPDATE gf_os SET descricao = @descricao, usuario_responsavel_id = @usuario_responsavel_id, analise_desenvolvimento = @analise_desenvolvimento, solucao_proposta = @solucao_proposta WHERE id = @id');
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-
-
-app.get('/usuarios', (req, res) => {
-  db.all('SELECT * FROM usuarios', [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
+// Listar usuários
+app.get('/usuarios', async (req, res) => {
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request().query('SELECT * FROM gf_usuarios');
+    res.json(result.recordset);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Listar módulos do sistema
-app.get('/sistema_modulo', (req, res) => {
-  db.all('SELECT * FROM sistema_modulo', (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
+// Listar módulos
+app.get('/sistema_modulo', async (req, res) => {
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request().query('SELECT * FROM gf_sistema_modulo');
+    res.json(result.recordset);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Cadastrar novo módulo do sistema
-app.post('/sistema_modulo', (req, res) => {
+// Cadastrar módulo
+app.post('/sistema_modulo', async (req, res) => {
   const { nome } = req.body;
   if (!nome) return res.status(400).json({ error: 'Nome é obrigatório' });
-  db.run('INSERT INTO sistema_modulo (nome) VALUES (?)', [nome], function(err) {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json({ id: this.lastID, nome });
-  });
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request()
+      .input('nome', sql.NVarChar, nome)
+      .query('INSERT INTO gf_sistema_modulo (nome) OUTPUT INSERTED.id VALUES (@nome)');
+    res.json({ id: result.recordset[0].id, nome });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Listar funcionalidades
-app.get('/tela_funcionalidade', (req, res) => {
-  db.all('SELECT * FROM tela_funcionalidade', (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
+app.get('/tela_funcionalidade', async (req, res) => {
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request().query('SELECT * FROM gf_tela_funcionalidade');
+    res.json(result.recordset);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Cadastrar nova funcionalidade
-app.post('/tela_funcionalidade', (req, res) => {
+// Cadastrar funcionalidade
+app.post('/tela_funcionalidade', async (req, res) => {
   const { nome, sistema_modulo_id } = req.body;
   if (!nome || !sistema_modulo_id) return res.status(400).json({ error: 'Nome e módulo são obrigatórios' });
-  db.run(
-    'INSERT INTO tela_funcionalidade (nome, sistema_modulo_id) VALUES (?, ?)',
-    [nome, sistema_modulo_id],
-    function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ id: this.lastID, nome, sistema_modulo_id });
-    }
-  );
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request()
+      .input('nome', sql.NVarChar, nome)
+      .input('sistema_modulo_id', sql.Int, sistema_modulo_id)
+      .query('INSERT INTO gf_tela_funcionalidade (nome, sistema_modulo_id) OUTPUT INSERTED.id VALUES (@nome, @sistema_modulo_id)');
+    res.json({ id: result.recordset[0].id, nome, sistema_modulo_id });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// 4. Endpoint para upload de evidências (imagem ou vídeo)
-app.post('/os/:id/evidencias', upload.single('arquivo'), (req, res) => {
+// Upload Evidências
+app.post('/os/:id/evidencias', upload.single('arquivo'), async (req, res) => {
   const os_id = req.params.id;
   const file = req.file;
   if (!file) return res.status(400).json({ error: 'Arquivo não enviado' });
@@ -322,88 +450,107 @@ app.post('/os/:id/evidencias', upload.single('arquivo'), (req, res) => {
               : file.mimetype.startsWith('video/') ? 'video'
               : 'outro';
 
-  db.run(
-    `INSERT INTO os_evidencias (os_id, tipo, nome_arquivo, caminho_arquivo) VALUES (?, ?, ?, ?)`,
-    [os_id, tipo, file.originalname, file.filename],
-    function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ id: this.lastID, tipo, nome_arquivo: file.originalname, caminho_arquivo: file.filename });
-    }
-  );
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request()
+      .input('os_id', sql.Int, os_id)
+      .input('tipo', sql.NVarChar, tipo)
+      .input('nome_arquivo', sql.NVarChar, file.originalname)
+      .input('caminho_arquivo', sql.NVarChar, file.filename)
+      .query('INSERT INTO gf_os_evidencias (os_id, tipo, nome_arquivo, caminho_arquivo) OUTPUT INSERTED.id VALUES (@os_id, @tipo, @nome_arquivo, @caminho_arquivo)');
+    
+    res.json({ id: result.recordset[0].id, tipo, nome_arquivo: file.originalname, caminho_arquivo: file.filename });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// 5. Endpoint para listar evidências de uma OS
-app.get('/os/:id/evidencias', (req, res) => {
-  db.all('SELECT * FROM os_evidencias WHERE os_id = ?', [req.params.id], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
+// Listar Evidências
+app.get('/os/:id/evidencias', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request()
+      .input('os_id', sql.Int, id)
+      .query('SELECT * FROM gf_os_evidencias WHERE os_id = @os_id');
+    res.json(result.recordset);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Tabela e endpoints para progresso de quizzes por usuário e módulo
-db.run(`CREATE TABLE IF NOT EXISTS quiz_progresso (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  usuario_id INTEGER NOT NULL,
-  modulo_id INTEGER NOT NULL,
-  acertos INTEGER DEFAULT 0,
-  total INTEGER DEFAULT 0,
-  data_finalizacao TEXT,
-  UNIQUE(usuario_id, modulo_id)
-)`);
+// Deletar Evidência
+app.delete('/os/evidencias/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request().input('id', sql.Int, id).query('SELECT caminho_arquivo FROM gf_os_evidencias WHERE id = @id');
+    
+    if (result.recordset.length === 0) return res.status(404).json({ error: 'Evidência não encontrada' });
+    
+    const filePath = path.join(uploadDir, result.recordset[0].caminho_arquivo);
+    
+    // Tenta deletar arquivo físico
+    fs.unlink(filePath, async (err) => {
+      // Mesmo se der erro no arquivo (ex: não existe), deleta do banco
+      await pool.request().input('id', sql.Int, id).query('DELETE FROM gf_os_evidencias WHERE id = @id');
+      res.json({ success: true });
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-// Salvar/atualizar progresso do quiz
-app.post('/quiz/progresso', (req, res) => {
+// Salvar progresso quiz
+app.post('/quiz/progresso', async (req, res) => {
   const { usuario_id, modulo_id, acertos, total } = req.body;
   if (!usuario_id || !modulo_id) return res.status(400).json({ error: 'Dados obrigatórios.' });
-  const data_finalizacao = new Date().toISOString();
-  db.run(
-    `INSERT INTO quiz_progresso (usuario_id, modulo_id, acertos, total, data_finalizacao)
-     VALUES (?, ?, ?, ?, ?)
-     ON CONFLICT(usuario_id, modulo_id) DO UPDATE SET acertos=excluded.acertos, total=excluded.total, data_finalizacao=excluded.data_finalizacao`,
-    [usuario_id, modulo_id, acertos, total, data_finalizacao],
-    function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ ok: true });
-    }
-  );
+  
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const request = pool.request();
+    request.input('usuario_id', sql.Int, usuario_id);
+    request.input('modulo_id', sql.Int, modulo_id);
+    request.input('acertos', sql.Int, acertos);
+    request.input('total', sql.Int, total);
+    request.input('data_finalizacao', sql.DateTime, new Date());
+
+    // Merge (Upsert) logic for SQL Server
+    await request.query(`
+      MERGE gf_quiz_progresso AS target
+      USING (SELECT @usuario_id AS usuario_id, @modulo_id AS modulo_id) AS source
+      ON (target.usuario_id = source.usuario_id AND target.modulo_id = source.modulo_id)
+      WHEN MATCHED THEN
+        UPDATE SET acertos = @acertos, total = @total, data_finalizacao = @data_finalizacao
+      WHEN NOT MATCHED THEN
+        INSERT (usuario_id, modulo_id, acertos, total, data_finalizacao)
+        VALUES (@usuario_id, @modulo_id, @acertos, @total, @data_finalizacao);
+    `);
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Buscar progresso do quiz por usuário
-app.get('/quiz/progresso', (req, res) => {
+// Buscar progresso quiz
+app.get('/quiz/progresso', async (req, res) => {
   const { usuario_id } = req.query;
   if (!usuario_id) return res.status(400).json({ error: 'usuario_id obrigatório.' });
-  db.all(
-    `SELECT modulo_id, acertos, total, data_finalizacao FROM quiz_progresso WHERE usuario_id = ?`,
-    [usuario_id],
-    (err, rows) => {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json(rows);
-    }
-  );
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request()
+      .input('usuario_id', sql.Int, usuario_id)
+      .query('SELECT modulo_id, acertos, total, data_finalizacao FROM gf_quiz_progresso WHERE usuario_id = @usuario_id');
+    res.json(result.recordset);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// 6. Endpoint para servir arquivos estáticos da pasta uploads
 app.use('/uploads', express.static(uploadDir));
 
-// 7. (Opcional) Endpoint para deletar uma evidência
-app.delete('/os/evidencias/:id', (req, res) => {
-  db.get('SELECT caminho_arquivo FROM os_evidencias WHERE id = ?', [req.params.id], (err, row) => {
-    if (err || !row) return res.status(404).json({ error: 'Evidência não encontrada' });
-    const filePath = path.join(uploadDir, row.caminho_arquivo);
-    fs.unlink(filePath, () => {
-      db.run('DELETE FROM os_evidencias WHERE id = ?', [req.params.id], function (err) {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json({ success: true });
-      });
-    });
-  });
-});
-
-// Agendar para rodar todo dia às 14:35
 cron.schedule('35 14 * * 1-5', () => {
-  // Chame aqui o método que você deseja executar diariamente às 14:35
   console.log('Executando rotina diária às 14:35');
-  // Exemplo: atualizarStatusOS();
 });
 
-app.listen(3001, '0.0.0.0', () => console.log('API rodando em http://0.0.0.0:3001'));
+app.listen(3001, '0.0.0.0', () => console.log('API SQL Server rodando em http://0.0.0.0:3001'));

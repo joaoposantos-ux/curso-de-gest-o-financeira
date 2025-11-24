@@ -14,6 +14,7 @@
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "mssql": "^12.1.1",
     "multer": "^2.0.0",
     "node-cron": "^4.0.7",
     "os-kanban": "file:..",
