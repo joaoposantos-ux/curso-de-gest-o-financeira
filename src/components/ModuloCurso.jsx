@@ -630,6 +630,15 @@ Indicadores financeiros são o "painel de controle" da gestão. Um gestor profis
   }
 ];
 
+const imagensModulos = {
+  1: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80", // Contabilidade/Calculadora
+  2: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80", // Planejamento/Gráficos
+  3: "https://images.unsplash.com/photo-1543286386-713df548e9cc?auto=format&fit=crop&w=800&q=80", // Análise de Documentos
+  4: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?auto=format&fit=crop&w=800&q=80", // Dinheiro/Moedas
+  5: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=800&q=80", // Investimentos/Bolsa
+  6: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"  // Indicadores/Laptop
+};
+
 export default function ModuloCurso() {
   const { id } = useParams();
   const modulo = conteudos.find(m => m.id === Number(id));
@@ -743,7 +752,7 @@ export default function ModuloCurso() {
 
         {/* Imagem ilustrativa */}
         <img
-          src={`https://source.unsplash.com/800x300/?finance,business,${modulo.id}`}
+          src={imagensModulos[modulo.id] || "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"}
           alt="Ilustração do módulo"
           className="my-8 rounded-xl shadow-lg w-full object-cover"
           style={{ maxHeight: 300 }}

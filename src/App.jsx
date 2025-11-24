@@ -6,6 +6,7 @@ import ModuloCurso from './components/ModuloCurso';
 import Login from './components/Login';
 import CadastroUsuario from './components/CadastroUsuario';
 import AreaAluno from './components/AreaAluno';
+import DashboardGestor from './components/DashboardGestor';
 import DeclaracaoConclusao from './components/DeclaracaoConclusao';
 
 export default function App() {
@@ -39,6 +40,9 @@ export default function App() {
           />
           <Link to="/curso" className="bg-green-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-800 shadow-md">Gestão Financeira</Link>
           <Link to="/aluno" className="bg-blue-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-800 shadow-md">Área do Aluno</Link>
+          {!!usuario?.admin && (
+            <Link to="/gestor" className="bg-purple-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-purple-800 shadow-md">Painel Gestor</Link>
+          )}
           <Link to="/declaracao" className="bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 shadow-md">Declaração de Conclusão</Link>
           <span className="ml-auto flex items-center gap-2 text-gray-200 font-semibold">
             {usuario?.nome}
@@ -58,6 +62,7 @@ export default function App() {
             <Route path="/curso" element={<HomeCurso />} />
             <Route path="/modulo/:id" element={<ModuloCurso />} />
             <Route path="/aluno" element={<AreaAluno />} />
+            <Route path="/gestor" element={<DashboardGestor />} />
             <Route path="/declaracao" element={<DeclaracaoConclusao usuario={usuario} />} />
             <Route path="*" element={<HomeCurso />} />
           </Routes>

@@ -49,7 +49,8 @@ export default function DeclaracaoConclusao({ usuario }) {
       {/* Documento de Declaração */}
       <div ref={declaracaoRef} className="w-full max-w-4xl bg-white rounded-lg shadow-2xl p-12" style={{ minHeight: '600px' }}>
         {/* Header com Logo e Título */}
-        <div className="text-center mb-8 pb-6 border-b-4 border-blue-600">
+        <div className="text-center mb-8 pb-6 border-b-4 border-blue-600 flex flex-col items-center">
+          <img src="/logo.png" alt="Logo Instituição" className="h-24 mb-4 object-contain" />
           <div className="text-sm font-semibold text-gray-600 mb-2">INSTITUIÇÃO DE EDUCAÇÃO CONTINUADA</div>
           <h1 className="text-4xl font-bold text-gray-800 mb-2">Gestão Financeira</h1>
           <div className="text-blue-600 font-semibold">Curso Online Certificado</div>
@@ -113,9 +114,15 @@ export default function DeclaracaoConclusao({ usuario }) {
             </div>
 
             {/* Assinatura e Data */}
-            <div className="mt-12 text-center">
-              <p className="text-lg text-gray-600">Assinatura:</p>
-              <div className="border-t border-gray-400 w-1/2 mx-auto mt-2"></div>
+            <div className="mt-16 flex justify-center">
+              <div className="text-center">
+                <div className="font-script text-4xl text-blue-900 mb-4 transform -rotate-3" style={{ fontFamily: 'Brush Script MT, cursive' }}>
+                  Diretoria Acadêmica
+                </div>
+                <div className="border-t-2 border-gray-800 w-80 mx-auto mb-2"></div>
+                <p className="font-bold text-gray-800 uppercase tracking-wide">Coordenação Pedagógica</p>
+                <p className="text-sm text-gray-600">Instituição de Educação Continuada</p>
+              </div>
             </div>
 
             <div className="mt-6 text-right">
