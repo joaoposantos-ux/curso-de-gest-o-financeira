@@ -5,732 +5,312 @@ import { FaCheckCircle, FaTimesCircle, FaChartLine, FaTrophy } from 'react-icons
 const quizzes = {
   1: [
     {
-      pergunta: 'O que é gestão financeira?',
+      pergunta: 'Qual é o objetivo primário da Administração Financeira?',
       opcoes: [
-        'A administração dos recursos financeiros de uma organização',
-        'A gestão de pessoas',
-        'A análise de marketing',
-        'A produção industrial'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'Qual o principal objetivo da gestão financeira?',
-      opcoes: [
-        'Maximizar o lucro a qualquer custo',
-        'Garantir a saúde financeira e sustentabilidade do negócio',
-        'Reduzir o número de funcionários',
-        'Aumentar o estoque'
+        'Maximizar o lucro contábil de curto prazo',
+        'Maximizar a riqueza dos acionistas (valor da empresa)',
+        'Minimizar o pagamento de impostos',
+        'Maximizar o número de funcionários'
       ],
       resposta: 1
     },
     {
-      pergunta: 'Gestão financeira é importante para:',
+      pergunta: 'O que a Teoria da Agência e a Governança Corporativa buscam resolver?',
       opcoes: [
-        'Apenas grandes empresas',
-        'Qualquer pessoa ou organização',
-        'Somente bancos',
-        'Apenas o governo'
+        'A falta de dinheiro no caixa',
+        'Os conflitos de interesse entre acionistas (proprietários) e gestores (agentes)',
+        'A alta carga tributária',
+        'A concorrência desleal'
       ],
       resposta: 1
     },
     {
-      pergunta: 'O que compõe o ciclo financeiro?',
+      pergunta: 'Qual mercado é responsável pela negociação de títulos de longo prazo (ações e debêntures)?',
       opcoes: [
-        'Receitas, despesas e investimentos',
-        'Apenas receitas',
-        'Somente despesas',
-        'Apenas investimentos'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'Qual destes NÃO é um objetivo da gestão financeira?',
-      opcoes: [
-        'Maximizar o valor da empresa',
-        'Reduzir riscos financeiros',
-        'Ignorar o fluxo de caixa',
-        'Buscar rentabilidade'
+        'Mercado Monetário',
+        'Mercado de Crédito',
+        'Mercado de Capitais',
+        'Mercado Cambial'
       ],
       resposta: 2
     },
     {
-      pergunta: 'O controle financeiro ajuda a:',
+      pergunta: 'O que caracteriza a Decisão de Investimento (Orçamento de Capital)?',
       opcoes: [
-        'Evitar desperdícios e melhorar decisões',
-        'Aumentar gastos sem controle',
-        'Ignorar receitas',
-        'Reduzir lucros'
+        'Escolher onde alocar recursos em ativos para obter retorno futuro',
+        'Definir de onde captar recursos',
+        'Decidir o nível de estoque',
+        'Calcular o imposto de renda'
       ],
       resposta: 0
     },
     {
-      pergunta: 'O que é orçamento?',
+      pergunta: 'Qual a função dos Agentes Superavitários no SFN?',
       opcoes: [
-        'Planejamento das receitas e despesas futuras',
-        'Relatório de vendas',
-        'Lista de funcionários',
-        'Plano de marketing'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'A gestão financeira pessoal envolve:',
-      opcoes: [
-        'Apenas empresas',
-        'Qualquer pessoa que administra seu dinheiro',
-        'Somente bancos',
-        'Apenas investidores profissionais'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'O que é fluxo de caixa?',
-      opcoes: [
-        'Controle das entradas e saídas de dinheiro',
-        'Controle de estoque',
-        'Gestão de pessoas',
-        'Planejamento de marketing'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'A gestão financeira eficiente resulta em:',
-      opcoes: [
-        'Maior sustentabilidade e crescimento',
-        'Mais dívidas',
-        'Desorganização financeira',
-        'Menor controle dos recursos'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'Qual é a relação fundamental da contabilidade?',
-      opcoes: [
-        'Ativo = Passivo + Patrimônio Líquido',
-        'Receita = Despesa',
-        'Lucro = Ativo - Passivo',
-        'Capital = Ativo × 2'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'O que significa "sustentabilidade financeira"?',
-      opcoes: [
-        'Ter lucros infinitos',
-        'Capacidade de manter operações e crescer sem quebrar',
-        'Não gastar dinheiro',
-        'Ter apenas receitas'
+        'Tomar dinheiro emprestado',
+        'Fornecer recursos (poupança) para o sistema',
+        'Regular os bancos',
+        'Emitir moeda'
       ],
       resposta: 1
     }
   ],
   2: [
     {
-      pergunta: 'O que é planejamento financeiro?',
+      pergunta: 'Qual é considerada a base fundamental para todo o planejamento financeiro?',
       opcoes: [
-        'Definir metas e estratégias para o uso dos recursos financeiros',
-        'Contratar novos funcionários',
-        'Comprar equipamentos',
+        'A Previsão de Vendas',
+        'O Orçamento de Produção',
+        'O Balanço Patrimonial do ano anterior',
+        'A contratação de novos funcionários'
+      ],
+      resposta: 0
+    },
+    {
+      pergunta: 'Qual a principal diferença entre Orçamento Operacional e Orçamento de Capital?',
+      opcoes: [
+        'O Operacional foca no curto prazo (DRE) e o de Capital em investimentos de longo prazo',
+        'O Operacional é feito pelos bancos e o de Capital pelos sócios',
+        'O de Capital não envolve dinheiro',
+        'Não há diferença, são sinônimos'
+      ],
+      resposta: 0
+    },
+    {
+      pergunta: 'O que representa o Ciclo Financeiro (Ciclo de Caixa)?',
+      opcoes: [
+        'O tempo total de produção',
+        'O período entre o pagamento aos fornecedores e o recebimento das vendas',
+        'O tempo que o dinheiro fica no banco rendendo juros',
+        'O prazo de validade dos produtos'
+      ],
+      resposta: 1
+    },
+    {
+      pergunta: 'Qual é o objetivo da Análise de Variâncias no Controle Financeiro?',
+      opcoes: [
+        'Calcular o imposto de renda devido',
+        'Identificar e mensurar as diferenças entre o resultado orçado e o realizado',
+        'Demitir funcionários improdutivos',
         'Aumentar o preço dos produtos'
       ],
-      resposta: 0
-    },
-    {
-      pergunta: 'O controle financeiro serve para:',
-      opcoes: [
-        'Monitorar receitas e despesas',
-        'Aumentar o endividamento',
-        'Reduzir a produção',
-        'Contratar fornecedores'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'Qual é a primeira etapa do planejamento financeiro?',
-      opcoes: [
-        'Comprar ativos',
-        'Diagnóstico da situação atual',
-        'Pedir empréstimo',
-        'Aumentar vendas'
-      ],
       resposta: 1
     },
     {
-      pergunta: 'Objetivos financeiros de curto prazo são aqueles com:',
+      pergunta: 'O que o WACC (Custo Médio Ponderado de Capital) indica?',
       opcoes: [
-        'Mais de 10 anos',
-        'Entre 5 e 10 anos',
-        'Até 1 ano',
-        'Nunca alcançáveis'
-      ],
-      resposta: 2
-    },
-    {
-      pergunta: 'Um orçamento bem elaborado deve:',
-      opcoes: [
-        'Ser fixo e nunca mudar',
-        'Ser revisado regularmente conforme necessário',
-        'Servir apenas para demonstrar resultados',
-        'Ser totalmente realista sem margem de segurança'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'A folga orçamentária (buffer) em um orçamento:',
-      opcoes: [
-        'É uma fraqueza do gestor',
-        'Protege contra imprevistos e variações',
-        'Significa que o orçamento está errado',
-        'Aumenta custos desnecessariamente'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Qual ferramenta é essencial para o controle financeiro?',
-      opcoes: [
-        'Apenas calculadora manual',
-        'Relatórios e indicadores de desempenho',
-        'Nenhuma, controle é apenas mental',
-        'Apenas sistemas muito caros'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Uma variação orçamentária positiva significa:',
-      opcoes: [
-        'Sempre é bom',
-        'Resultado melhor do que esperado em receita ou menor em despesa',
-        'Sempre é ruim',
-        'Que o orçamento estava errado'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'O orçamento operacional foca em:',
-      opcoes: [
-        'Compra de imóveis',
-        'Receitas e despesas do dia a dia da operação',
-        'Apenas salários',
-        'Investimentos em ações'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'A reconciliação bancária é importante para:',
-      opcoes: [
-        'Gastar mais dinheiro',
-        'Comparar registros com extratos para verificar erros',
-        'Aumentar juros',
-        'Reduzir funcionários'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Qual é um indicador importante de controle?',
-      opcoes: [
-        'Cor do escritório',
-        'Taxa de variação entre orçado e realizado',
-        'Número de funcionários',
-        'Marca do computador'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'A separação de responsabilidades em finanças:',
-      opcoes: [
-        'É desnecessária em empresas pequenas',
-        'Reduz fraudes e erros tendo pessoas diferentes para aprovar e executar',
-        'Torna tudo mais lento',
-        'Aumenta custos muito'
+        'O lucro total da empresa',
+        'A taxa mínima de retorno que a empresa deve gerar para criar valor',
+        'O valor total da dívida bancária',
+        'O salário do diretor financeiro'
       ],
       resposta: 1
     }
   ],
   3: [
     {
-      pergunta: 'O que é um balanço patrimonial?',
+      pergunta: 'Como é calculado o Capital de Giro Líquido (CGL)?',
       opcoes: [
-        'Demonstração da posição financeira da empresa em determinado momento',
-        'Relatório de vendas',
-        'Plano de marketing',
-        'Lista de funcionários'
+        'Ativo Não Circulante - Passivo Não Circulante',
+        'Ativo Circulante - Passivo Circulante',
+        'Lucro Líquido + Depreciação',
+        'Caixa + Estoques'
+      ],
+      resposta: 1
+    },
+    {
+      pergunta: 'O que define o Ciclo Financeiro (Ciclo de Caixa)?',
+      opcoes: [
+        'Ciclo Operacional - Prazo Médio de Pagamento (PMP)',
+        'Prazo Médio de Estocagem + Prazo Médio de Recebimento',
+        'O tempo total de fabricação do produto',
+        'O prazo de validade dos estoques'
       ],
       resposta: 0
     },
     {
-      pergunta: 'A DRE (Demonstração do Resultado do Exercício) mostra:',
+      pergunta: 'O que caracteriza uma Política Conservadora de Investimento em Ativos Circulantes?',
       opcoes: [
-        'O resultado líquido de um período',
-        'O estoque de mercadorias',
-        'A folha de pagamento',
-        'O fluxo de caixa futuro'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'No balanço patrimonial, o Ativo representa:',
-      opcoes: [
-        'O que a empresa deve',
-        'O que a empresa possui',
-        'Apenas dinheiro em caixa',
-        'Os funcionários'
+        'Manter níveis baixos de caixa e estoques para maximizar rentabilidade',
+        'Manter níveis altos de Ativo Circulante (muito caixa e estoque) para reduzir risco',
+        'Investir apenas em ativos fixos',
+        'Não conceder crédito aos clientes'
       ],
       resposta: 1
     },
     {
-      pergunta: 'O Passivo no balanço patrimonial é:',
+      pergunta: 'Qual o objetivo do modelo de Lote Econômico de Compra (LEC/EOQ)?',
       opcoes: [
-        'O que a empresa possui',
-        'O que a empresa deve (obrigações)',
-        'Apenas lucro',
-        'Apenas estoque'
+        'Comprar o máximo possível para ganhar descontos',
+        'Minimizar os custos totais de pedido e armazenagem',
+        'Zerar o estoque da empresa',
+        'Aumentar o preço de venda'
       ],
       resposta: 1
     },
     {
-      pergunta: 'O Patrimônio Líquido é calculado por:',
+      pergunta: 'Quais são os 5 Cs do Crédito?',
       opcoes: [
-        'Ativo + Passivo',
-        'Ativo - Passivo',
-        'Receita - Despesa',
-        'Lucro + Investimento'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Ativo Circulante inclui:',
-      opcoes: [
-        'Apenas imóveis',
-        'Recursos que se convertem em dinheiro até 1 ano (caixa, clientes)',
-        'Apenas dívidas',
-        'Máquinas de longo prazo'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'A Análise Horizontal dos demonstrativos:',
-      opcoes: [
-        'Compara itens em um período',
-        'Compara evolução ao longo de vários períodos (tendência)',
-        'Sempre mostra crescimento',
-        'Não serve para nada'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'A Análise Vertical dos demonstrativos:',
-      opcoes: [
-        'Compara períodos diferentes',
-        'Mostra proporção de cada item em relação ao total',
-        'Mostra tendência',
-        'Identifica problemas estruturais sempre'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Depreciation (Depreciação) é:',
-      opcoes: [
-        'Ganho extraordinário',
-        'Redução do valor de um ativo ao longo do tempo',
-        'Aumento de dívida',
-        'Rendimento do investimento'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Qual setor utiliza mais análise de demonstrativos?',
-      opcoes: [
-        'Apenas construção',
-        'Investidores, credores, gestores e reguladores',
-        'Nenhum setor precisa',
-        'Apenas bancos'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Uma empresa com Ativo > Passivo tem:',
-      opcoes: [
-        'Patrimônio Líquido negativo',
-        'Patrimônio Líquido positivo',
-        'Que quebrar obrigatoriamente',
-        'Que crescer sempre'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'O EBIT significa:',
-      opcoes: [
-        'Lucro após impostos',
-        'Lucro operacional antes de impostos',
-        'Especulação de mercado',
-        'Endividamento total'
+        'Carro, Casa, Comida, Computador, Celular',
+        'Caráter, Capacidade, Capital, Colateral, Condições',
+        'Custo, Caixa, Controle, Cobrança, Cliente',
+        'Capital, Crédito, Confiança, Cadastro, Consulta'
       ],
       resposta: 1
     }
   ],
   4: [
     {
-      pergunta: 'O que é fluxo de caixa?',
+      pergunta: 'Qual a fórmula básica para calcular o Montante em Juros Simples?',
       opcoes: [
-        'Controle de estoque',
-        'Controle das entradas e saídas de dinheiro',
-        'Gestão de pessoas',
-        'Planejamento de marketing'
+        'M = P * (1 + i)^n',
+        'M = P * (1 + i * n)',
+        'M = P * i * n',
+        'M = P / (1 + i)'
       ],
       resposta: 1
     },
     {
-      pergunta: 'Capital de giro é:',
+      pergunta: 'O que caracteriza o Sistema de Amortização Constante (SAC)?',
       opcoes: [
-        'Recursos necessários para manter as operações do dia a dia',
-        'Investimento em imóveis',
-        'Compra de máquinas',
-        'Pagamento de impostos'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'Por que fluxo de caixa é crítico?',
-      opcoes: [
-        'Porque são números grandes',
-        'Uma empresa pode ser lucrável mas quebrar sem caixa',
-        'Apenas para auditoria',
-        'Não é realmente importante'
+        'Prestações fixas e iguais do início ao fim',
+        'Amortização fixa mensal e prestações decrescentes',
+        'Pagamento único no final',
+        'Juros calculados sobre o valor original da dívida'
       ],
       resposta: 1
     },
     {
-      pergunta: 'O ciclo operacional inclui:',
+      pergunta: 'Para que serve o Valor Presente Líquido (VPL) na análise de investimentos?',
       opcoes: [
-        'Apenas compra de matéria-prima',
-        'Compra, produção, venda até recebimento',
-        'Apenas pagamento de contas',
-        'Nenhum desses'
+        'Para calcular o imposto de renda',
+        'Para determinar se um projeto cria valor (riqueza) hoje',
+        'Para saber quanto tempo leva para recuperar o investimento',
+        'Para calcular a taxa de juros do banco'
       ],
       resposta: 1
     },
     {
-      pergunta: 'Se o ciclo financeiro é 60 dias, significa:',
+      pergunta: 'O que é o Custo Efetivo Total (CET) de um empréstimo?',
       opcoes: [
-        'A empresa recebe 60 dias após vender',
-        'A empresa precisa financiar 60 dias entre pagamento e recebimento',
-        'Sempre é problema',
-        'Não significa nada'
+        'Apenas a taxa de juros nominal',
+        'A soma de juros, taxas, tarifas, seguros e outras despesas cobradas na operação',
+        'O valor total da dívida sem juros',
+        'O lucro do banco'
       ],
       resposta: 1
     },
     {
-      pergunta: 'Para reduzir a necessidade de capital de giro:',
+      pergunta: 'Qual a relação entre Taxa Nominal, Taxa Real e Inflação (Equação de Fisher)?',
       opcoes: [
-        'Aumentar prazo de fornecedor',
-        'Acelerar recebimentos',
-        'Reduzir estoque',
-        'Todas as alternativas acima'
-      ],
-      resposta: 3
-    },
-    {
-      pergunta: 'O método direto para fluxo de caixa:',
-      opcoes: [
-        'Baseia-se em movimentações reais de caixa',
-        'Parte do lucro líquido',
-        'É mais complexo',
-        'Não existe'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'Um aumento em contas a receber significa:',
-      opcoes: [
-        'Mais dinheiro em caixa',
-        'Menos caixa (dinheiro preso em créditos)',
-        'Sempre positivo',
-        'Não afeta caixa'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Just-in-time em gestão de estoque:',
-      opcoes: [
-        'Compra tudo no começo do período',
-        'Recebe matéria-prima apenas quando necessário',
-        'Não reduz necessidade de capital',
-        'É muito caro'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Um saldo de caixa negativo significa:',
-      opcoes: [
-        'Lucro negativo',
-        'Mais dinheiro saiu do que entrou (descoberto bancário)',
-        'Sempre é bom',
-        'Não tem consequência'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Qual atividade gera fluxo positivo?',
-      opcoes: [
-        'Emprestar dinheiro para pessoas',
-        'Recebimento de clientes',
-        'Pagar fornecedores',
-        'Pagar aluguel'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Sazonalidade em fluxo de caixa significa:',
-      opcoes: [
-        'Sempre uniforme',
-        'Variações conforme período do ano',
-        'Impossível prever',
-        'Não existe'
+        'Taxa Real = Taxa Nominal + Inflação',
+        '(1 + Taxa Nominal) = (1 + Taxa Real) * (1 + Inflação)',
+        'Taxa Nominal é sempre menor que a Taxa Real',
+        'A inflação não afeta o ganho real'
       ],
       resposta: 1
     }
   ],
   5: [
     {
-      pergunta: 'Fontes de financiamento podem ser:',
+      pergunta: 'O que são "Sunk Costs" (Custos Afundados) na análise de investimentos?',
       opcoes: [
-        'Próprias ou de terceiros',
-        'Apenas empréstimos bancários',
-        'Somente capital próprio',
-        'Apenas vendas a prazo'
+        'Custos de manutenção de navios',
+        'Gastos passados já incorridos que não se recuperam e devem ser ignorados na decisão',
+        'Custos futuros de oportunidade',
+        'Investimentos em capital de giro'
+      ],
+      resposta: 1
+    },
+    {
+      pergunta: 'Qual é a regra de decisão fundamental do Valor Presente Líquido (VPL)?',
+      opcoes: [
+        'Aceitar se VPL > 0 (cria riqueza)',
+        'Aceitar se VPL < 0 (custa menos)',
+        'Aceitar se VPL for igual à TIR',
+        'Aceitar qualquer projeto com lucro contábil'
       ],
       resposta: 0
     },
     {
-      pergunta: 'Investimento é:',
+      pergunta: 'Em caso de conflito entre VPL e TIR em projetos mutuamente exclusivos, qual critério deve prevalecer?',
       opcoes: [
-        'Pagamento de dívidas',
-        'Compra de estoque',
-        'Aplicação de recursos visando retorno futuro',
-        'Redução de custos'
-      ],
-      resposta: 2
-    },
-    {
-      pergunta: 'Capital Social é:',
-      opcoes: [
-        'Custo de operação',
-        'Investimento inicial dos proprietários',
-        'Empréstimo bancário',
-        'Lucro retido'
+        'A TIR, pois é uma porcentagem',
+        'O VPL, pois mede a riqueza absoluta adicionada aos acionistas',
+        'O Payback, pois é mais rápido',
+        'A intuição do gestor'
       ],
       resposta: 1
     },
     {
-      pergunta: 'Qual é a vantagem de usar capital próprio?',
+      pergunta: 'O que o Payback Descontado considera que o Payback Simples ignora?',
       opcoes: [
-        'Sem custo de juros',
-        'Dilui a propriedade da empresa',
-        'Reduz risco dos acionistas',
-        'Aumenta dívidas'
+        'O valor do dinheiro no tempo (taxa de desconto)',
+        'O imposto de renda',
+        'A depreciação',
+        'O custo dos funcionários'
       ],
       resposta: 0
     },
     {
-      pergunta: 'Debêntures são:',
+      pergunta: 'Para que serve a Análise de Cenários?',
       opcoes: [
-        'Títulos de patrimônio',
-        'Produtos bancários',
-        'Títulos de dívida emitidos pela empresa',
-        'Ações da empresa'
-      ],
-      resposta: 2
-    },
-    {
-      pergunta: 'Leasing é melhor que compra quando:',
-      opcoes: [
-        'Nunca é melhor',
-        'Sempre é pior',
-        'Se há necessidade de flexibilidade e mudança frequente',
-        'Não existe essa comparação'
-      ],
-      resposta: 2
-    },
-    {
-      pergunta: 'Payback é:',
-      opcoes: [
-        'Lucro total do investimento',
-        'Tempo para recuperar investimento inicial',
-        'Retorno em percentual',
-        'Risco do investimento'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'TIR (Taxa Interna de Retorno) é usada para:',
-      opcoes: [
-        'Calcular estoque',
-        'Comparar investimentos com custo de capital',
-        'Apenas em bancos',
-        'Não serve para nada'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'VPL (Valor Presente Líquido) > 0 significa:',
-      opcoes: [
-        'Investimento destrói valor',
-        'Investimento agrega valor',
-        'Sempre é ruim',
-        'Indiferente'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Qual custo é menor normalmente?',
-      opcoes: [
-        'Capital de terceiros (taxa de juros)',
-        'Capital próprio',
-        'Sempre igual',
-        'Não há diferença'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'Diversificação de investimentos significa:',
-      opcoes: [
-        'Colocar tudo em um ativo',
-        'Distribuir em vários ativos para reduzir risco',
-        'Não investir',
-        'Apenas em ações'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Renda fixa é caracterizada por:',
-      opcoes: [
-        'Alto risco',
-        'Retorno definido e previsível',
-        'Altíssimo retorno',
-        'Impossível saber retorno'
+        'Para prever o futuro com 100% de certeza',
+        'Para avaliar o projeto sob diferentes conjuntos de premissas (Otimista, Base, Pessimista)',
+        'Para calcular o imposto devido',
+        'Para escolher os fornecedores'
       ],
       resposta: 1
     }
   ],
   6: [
     {
-      pergunta: 'Indicadores financeiros servem para:',
+      pergunta: 'Qual é a principal função do Custo de Capital na análise de investimentos?',
       opcoes: [
-        'Avaliar o desempenho financeiro da empresa',
-        'Contratar funcionários',
-        'Planejar marketing',
-        'Aumentar o estoque'
-      ],
-      resposta: 0
-    },
-    {
-      pergunta: 'Liquidez Corrente é:',
-      opcoes: [
-        'Ativo Total / Passivo Total',
-        'Ativo Circulante / Passivo Circulante',
-        'Caixa / Obrigações',
-        'Lucro / Receita'
+        'Determinar o lucro líquido contábil',
+        'Servir como Taxa Mínima de Atratividade (TMA) para descontar fluxos de caixa (VPL)',
+        'Calcular o imposto de renda a pagar',
+        'Definir o preço de venda dos produtos'
       ],
       resposta: 1
     },
     {
-      pergunta: 'Uma Liquidez Corrente de 1,5 significa:',
+      pergunta: 'Como o Imposto de Renda afeta o Custo da Dívida?',
       opcoes: [
-        'Problema grave',
-        'R$ 1,50 de ativo para cada R$ 1 de obrigação de curto prazo',
-        'Muito baixo',
-        'Impossível de interpretar'
+        'Aumenta o custo, pois impostos são despesas',
+        'Não afeta, pois juros não são tributáveis',
+        'Reduz o custo efetivo, pois os juros são dedutíveis (Benefício Fiscal)',
+        'Torna a dívida igual ao capital próprio'
+      ],
+      resposta: 2
+    },
+    {
+      pergunta: 'O que representa o Beta (β) no modelo CAPM?',
+      opcoes: [
+        'A taxa livre de risco',
+        'O risco sistemático da empresa em relação ao mercado',
+        'O crescimento dos dividendos',
+        'O valor da dívida'
       ],
       resposta: 1
     },
     {
-      pergunta: 'Margem de Lucro Líquida mede:',
+      pergunta: 'Segundo a Teoria do Trade-off, o que define a Estrutura de Capital Ótima?',
       opcoes: [
-        'Quantas vezes o estoque se renova',
-        'Qual percentual da venda vira lucro',
-        'Quanto tempo leva receber',
-        'Capacidade de pagar contas'
+        'O uso de 100% de capital próprio para evitar riscos',
+        'O equilíbrio entre o benefício fiscal da dívida e os custos de falência',
+        'A preferência por lucros retidos (Pecking Order)',
+        'A irrelevância da estrutura de capital'
       ],
       resposta: 1
     },
     {
-      pergunta: 'ROE (Rentabilidade do Patrimônio) é importante porque:',
+      pergunta: 'O que a Alavancagem Operacional (GAO) mede?',
       opcoes: [
-        'Mostra custo operacional',
-        'Mostra retorno para proprietários',
-        'Calcula juros',
-        'Não é importante'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Endividamento alto pode significar:',
-      opcoes: [
-        'Sempre problema',
-        'Risco e alavanca de retorno, depende do contexto',
-        'Sempre excelente',
-        'Não afeta nada'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Giro do Ativo mostra:',
-      opcoes: [
-        'Lucro total',
-        'Quantas vezes o ativo se "vira" em vendas',
-        'Quanto custa operação',
-        'Nada relevante'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Prazo Médio de Recebimento de 45 dias significa:',
-      opcoes: [
-        'Recebe em 1 mês',
-        'Leva em média 45 dias para receber de clientes',
-        'Problema sempre',
-        'Não importa'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Um indicador isolado:',
-      opcoes: [
-        'É sempre suficiente para análise',
-        'Pode enganar, análise deve ser do conjunto',
-        'Não importa contexto',
-        'Diz tudo sobre a empresa'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Balanced Scorecard (BSC) equilibra:',
-      opcoes: [
-        'Apenas números',
-        'Perspectivas financeiras, cliente, interna e aprendizado',
-        'Apenas pessoas',
-        'Só custos'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Comparação com concorrentes é importante para:',
-      opcoes: [
-        'Inutilidade',
-        'Entender posicionamento competitivo',
-        'Não adiciona valor',
-        'Apenas para vender'
-      ],
-      resposta: 1
-    },
-    {
-      pergunta: 'Taxa de Cobertura (Lucro / Juros) > 5x significa:',
-      opcoes: [
-        'Muito risco',
-        'Segurança adequada para pagar juros',
-        'Problema financeiro',
-        'Irrelevante'
+        'O impacto da dívida no lucro por ação',
+        'O impacto dos custos fixos operacionais na sensibilidade do EBIT às vendas',
+        'O custo médio ponderado de capital',
+        'A liquidez corrente da empresa'
       ],
       resposta: 1
     }

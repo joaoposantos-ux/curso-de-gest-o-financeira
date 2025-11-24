@@ -3,7 +3,7 @@
   "name": "CURSO-DE-GESTAO-FINANCEIRA",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite --host --port 6300",
     "build": "vite build",
     "preview": "vite preview"
   },

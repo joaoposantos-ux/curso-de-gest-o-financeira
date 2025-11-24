@@ -5,12 +5,12 @@ import DeclaracaoConclusao from './DeclaracaoConclusao';
 import AnaliseDemonstrativosContabeis from './AnaliseDemonstrativosContabeis';
 
 const modulos = [
-  { id: 1, titulo: 'Introdução à Gestão Financeira', icon: FaBook },
-  { id: 2, titulo: 'Planejamento e Controle Financeiro', icon: FaChartLine },
-  { id: 3, titulo: 'Análise de Demonstrativos Contábeis', icon: FaBook },
-  { id: 4, titulo: 'Fluxo de Caixa e Capital de Giro', icon: FaBook },
-  { id: 5, titulo: 'Fontes de Financiamento e Investimentos', icon: FaTrophy },
-  { id: 6, titulo: 'Indicadores de Desempenho Financeiro', icon: FaMedal }
+  { id: 1, titulo: 'Fundamentos da Administração Financeira', icon: FaBook },
+  { id: 2, titulo: 'Análise e Planejamento Financeiro', icon: FaChartLine },
+  { id: 3, titulo: 'Gestão do Capital de Giro', icon: FaBook },
+  { id: 4, titulo: 'Matemática Financeira Aplicada', icon: FaBook },
+  { id: 5, titulo: 'Avaliação de Investimentos', icon: FaTrophy },
+  { id: 6, titulo: 'Custo e Estrutura de Capital', icon: FaMedal }
 ];
 
 export default function AreaAluno() {

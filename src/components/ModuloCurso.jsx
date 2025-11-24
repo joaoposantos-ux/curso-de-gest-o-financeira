@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import QuizModulo from './QuizModulo';
 import { useParams, Link } from 'react-router-dom';
 import { FaArrowLeft, FaBook, FaCheckCircle } from 'react-icons/fa';
@@ -6,626 +6,558 @@ import { FaArrowLeft, FaBook, FaCheckCircle } from 'react-icons/fa';
 const conteudos = [
   {
     id: 1,
-    titulo: 'Introdução à Gestão Financeira e Conceitos Básicos',
-    cronograma: '2-3 horas',
+    titulo: 'Módulo I: Fundamentos da Administração Financeira',
+    cronograma: '4-5 horas',
     texto: `
-## O que é Gestão Financeira?
+## Unidade 1: Introdução e Conceitos Fundamentais
 
-A gestão financeira é a administração estratégica dos recursos financeiros de uma organização ou pessoa, com o objetivo de otimizar o uso do dinheiro, maximizar lucros e garantir a sustentabilidade financeira. É uma disciplina essencial que envolve planejamento, análise, controle e tomada de decisão relacionadas ao capital.
+### 1.1 O que é Administração Financeira?
+A Administração Financeira é a arte e a ciência de gerir o dinheiro. Ela envolve a tomada de decisões sobre investimento, financiamento e gestão de ativos, com o objetivo de criar valor para a organização. Não se trata apenas de "contar dinheiro", mas de **planejar** como ele será utilizado para garantir o futuro da empresa.
 
-### Importância da Gestão Financeira
+### 1.2 O Objetivo da Firma
+Diferente do que muitos pensam, o objetivo principal não é apenas "maximizar o lucro", pois o lucro é uma medida contábil que pode ser manipulada ou não refletir a geração de caixa. O verdadeiro objetivo é **maximizar a riqueza dos acionistas** (ou o valor da empresa), o que se reflete no preço das ações a longo prazo. Isso considera:
+- O valor do dinheiro no tempo.
+- O risco associado aos fluxos de caixa esperados.
+- O retorno do capital investido.
 
-A gestão financeira é fundamental para:
-- **Sobrevivência da Organização**: Sem controle financeiro adequado, qualquer negócio, por melhor que seja seu produto, pode falhar.
-- **Crescimento Sustentável**: Permite identificar oportunidades de crescimento e investimento de forma inteligente.
-- **Redução de Riscos**: Auxilia na identificação e mitigação de riscos financeiros.
-- **Tomada de Decisão**: Fornece dados precisos para decisões estratégicas baseadas em fatos.
-- **Competitividade**: Empresas bem geridas financeiramente conseguem ser mais competitivas no mercado.
+### 1.3 Os Três Pilares da Decisão Financeira
+1.  **Decisão de Investimento (Orçamento de Capital):** Onde a empresa deve alocar seus recursos? Em quais projetos, produtos ou ativos (máquinas, prédios, tecnologia) investir para obter o maior retorno?
+2.  **Decisão de Financiamento (Estrutura de Capital):** De onde virá o dinheiro para esses investimentos? Devemos usar capital próprio (sócios) ou capital de terceiros (dívida)? Qual a proporção ideal?
+3.  **Decisão de Capital de Giro (Curto Prazo):** Como gerenciar o dia a dia? Quanto manter em caixa? Qual o nível de estoque ideal? Como cobrar os clientes?
 
-### Objetivos Principais da Gestão Financeira
+---
 
-1. **Maximizar o Valor da Empresa**: Aumentar o patrimônio e o valor para os acionistas
-2. **Garantir Liquidez**: Manter dinheiro disponível para pagar obrigações
-3. **Rentabilidade**: Gerar lucro sobre o capital investido
-4. **Eficiência Operacional**: Usar recursos da melhor forma possível
-5. **Minimizar Custos**: Reduzir despesas desnecessárias
-6. **Planejamento Estratégico**: Preparar a organização para o futuro
+## Unidade 2: Função e Perfil do Gestor Financeiro
 
-### O Ciclo Financeiro
+### 2.1 O Papel do Gestor Moderno
+O gestor financeiro (CFO - Chief Financial Officer) deixou de ser apenas um "guardião dos livros" para se tornar um estrategista. Suas responsabilidades incluem:
+- **Análise e Planejamento:** Transformar dados em informações para tomada de decisão.
+- **Gestão de Riscos:** Proteger a empresa contra volatilidade de mercado, câmbio e juros.
+- **Relação com Investidores:** Comunicar a estratégia e os resultados da empresa ao mercado.
 
-O ciclo financeiro envolve:
-- **Receita**: Dinheiro que entra
-- **Despesa**: Dinheiro que sai
-- **Investimento**: Aplicação de recursos em ativos
-- **Retorno**: Lucro ou ganho gerado
+### 2.2 Ética e Governança Corporativa
+A **Teoria da Agência** explica os conflitos de interesse entre os proprietários (acionistas) e os gestores (agentes). Para mitigar esses conflitos, surge a **Governança Corporativa**, um conjunto de regras e processos que garantem transparência, equidade e prestação de contas (accountability).
 
-### Diferenças entre Gestão Financeira Organizacional e Pessoal
+---
 
-**Gestão Financeira Organizacional:**
-- Envolve empresas e instituições
-- Foco em lucro e sustentabilidade do negócio
-- Análise de demonstrativos contábeis complexos
-- Envolvimento de múltiplos stakeholders
+## Unidade 3: O Ambiente Financeiro
 
-**Gestão Financeira Pessoal:**
-- Envolve indivíduos e famílias
-- Foco em qualidade de vida e segurança financeira
-- Controle de renda e despesas pessoais
-- Planejamento para aposentadoria
+### 3.1 Sistema Financeiro Nacional (SFN)
+O SFN é o ecossistema onde ocorrem as transações financeiras. Ele conecta agentes superavitários (quem tem dinheiro sobrando) aos agentes deficitários (quem precisa de dinheiro).
 
-### Conceitos Fundamentais
+### 3.2 Mercados Financeiros
+- **Mercado Monetário:** Operações de curtíssimo prazo (liquidez).
+- **Mercado de Crédito:** Empréstimos e financiamentos bancários.
+- **Mercado de Capitais:** Negociação de títulos de longo prazo (Ações e Debêntures). É aqui que as empresas buscam sócios ou credores de longo prazo.
+- **Mercado Cambial:** Troca de moedas estrangeiras.
 
-**Fluxo de Caixa**: Movimento de dinheiro que entra e sai
-**Lucro**: Receita menos despesa
-**Ativo**: Bens e direitos
-**Passivo**: Obrigações e dívidas
-**Patrimônio**: Ativo menos Passivo
-
-Compreender estes conceitos básicos é essencial para dominar toda a gestão financeira.
+### 3.3 Instituições Financeiras
+- **Bancos Comerciais e de Investimento:** Intermediários clássicos.
+- **Bolsa de Valores (B3 no Brasil):** Ambiente de negociação de ações.
+- **Corretoras e Distribuidoras:** Acesso dos investidores ao mercado.
     `
   },
   {
     id: 2,
-    titulo: 'Planejamento e Controle Financeiro',
-    cronograma: '3-4 horas',
+    titulo: 'Módulo II: Análise e Planejamento Financeiro',
+    cronograma: '5-6 horas',
     texto: `
-## Planejamento Financeiro
+## Unidade 1: Fundamentos do Planejamento Financeiro
 
-O planejamento financeiro é o processo de estabelecer objetivos financeiros e definir estratégias para alcançá-los. É a base para uma gestão financeira eficiente.
+### 1.1 Conceito e Importância
+- **Definição e objetivos:** O Planejamento Financeiro (Curto, Médio e Longo Prazo) é vital para a sustentabilidade.
+- **Integração:** Deve estar alinhado com o planejamento estratégico da empresa.
+- **Ciclo:** Planejamento, execução e controle.
 
-### Fases do Planejamento Financeiro
+### 1.2 Previsão de Vendas
+- **Métodos quantitativos:** Análise de séries temporais, regressão.
+- **Métodos qualitativos:** Opinião de executivos, pesquisa de mercado.
+- **Base:** A previsão de vendas é o alicerce de todo o planejamento financeiro.
 
-1. **Diagnóstico Financeiro**: Análise da situação atual
-   - Levantamento de receitas e despesas
-   - Identificação de assets e liabilities
-   - Análise de histórico financeiro
+---
 
-2. **Definição de Objetivos**: Estabelecer metas claras e mensuráveis
-   - Curto prazo (até 1 ano)
-   - Médio prazo (1 a 5 anos)
-   - Longo prazo (acima de 5 anos)
+## Unidade 2: Orçamento Empresarial (Budget)
 
-3. **Definição de Estratégias**: Como alcançar os objetivos
-   - Alocação de recursos
-   - Definição de prioridades
-   - Planejamento de investimentos
+### 2.1 Estrutura do Orçamento
+- **Operacional vs. Investimento:** Orçamento Mestre vs. Capex.
+- **Vendas:** Elaboração e desdobramento.
+- **Produção:** Materiais diretos, mão de obra direta e custos indiretos (CIF).
+- **Despesas Operacionais:** Vendas, administrativas e gerais.
 
-4. **Implementação**: Colocar o plano em ação
-   - Execução das estratégias
-   - Monitoramento de resultados
-   - Ajustes necessários
+### 2.2 Orçamento Financeiro
+- **Orçamento de Caixa (Cash Budget):** Previsão detalhada de entradas e saídas.
+- **Orçamento de Capital:** Avaliação de projetos de longo prazo.
 
-### Orçamento: Ferramenta Essencial
+### 2.3 Demonstrações Projetadas
+- **DRE Projetada:** Estimativa de lucro/prejuízo.
+- **Balanço Patrimonial Projetado:** Posição patrimonial futura.
+- **NFE:** Cálculo da Necessidade de Financiamento Externo.
 
-Um orçamento é um plano quantificado de receitas e despesas para um período futuro. Tipos de orçamento:
+---
 
-**Orçamento Operacional**: Receitas e despesas do dia a dia
-**Orçamento de Investimento**: Despesas com ativos fixos
-**Orçamento de Caixa**: Fluxo de entradas e saídas de dinheiro
+## Unidade 3: Gestão do Capital de Giro e Tesouraria
 
-### Controle Financeiro
+### 3.1 Administração do Capital de Giro
+- **Políticas:** Agressiva, moderada, conservadora.
+- **Ciclo Financeiro:** Análise do Ciclo de Caixa e estratégias de redução.
 
-O controle financeiro envolve:
+### 3.2 Gestão de Contas a Receber e Pagar
+- **Crédito:** Modelos de otimização da política de crédito.
+- **Fornecedores:** Estratégias para gerenciamento de pagamentos.
 
-- **Monitoramento**: Acompanhar a execução do orçamento
-- **Comparação**: Confrontar real com orçado
-- **Análise de Variações**: Identificar desvios
-- **Correções**: Implementar ações corretivas quando necessário
+### 3.3 Gestão de Caixa e Títulos
+- **Otimização:** Modelos de Baumol e Miller-Orr para saldo de caixa.
+- **Liquidez:** Administração de ativos de alta liquidez e títulos negociáveis.
 
-### Indicadores de Desempenho
+---
 
-**Margem de Lucro**: (Lucro / Receita) × 100
-**Rentabilidade sobre Investimento (ROI)**: (Lucro / Investimento) × 100
-**Período de Payback**: Tempo para recuperar investimento inicial
-**Taxa de Retorno**: Ganho percentual sobre investimento
+## Unidade 4: Controle Financeiro e Análise de Desempenho
 
-### Tecnologias e Ferramentas
+### 4.1 Controle Orçamentário
+- **Follow-up:** Comparação entre Orçado e Realizado.
+- **Relatórios:** Periodicidade e análise de desempenho.
 
-Ferramentas modernas para gestão:
-- Softwares de contabilidade
-- Planilhas eletrônicas
-- Sistemas ERP
-- Aplicativos de gestão pessoal
-- Dashboards em tempo real
+### 4.2 Análise de Variâncias
+- **Identificação:** Mensuração das diferenças entre previsto e realizado.
+- **Tipos:** Variâncias de vendas (volume/preço) e custos (materiais/mão de obra).
+- **Orçamento Flexível:** Ajuste ao nível de atividade real para análise justa.
 
-### Estratégias de Controle
+### 4.3 Custos para Decisão
+- **Análise CVL:** Custo-Volume-Lucro.
+- **Break-even:** Cálculo do Ponto de Equilíbrio.
 
-1. **Separação de Responsabilidades**: Pessoas diferentes para aprovar e executar
-2. **Registros Detalhados**: Documentação completa de todas as transações
-3. **Reconciliações**: Comparar registros com extratos bancários
-4. **Auditorias**: Revisões periódicas independentes
-5. **Políticas Claras**: Regras definidas para gastos e aprovações
+---
+
+## Unidade 5: Projeção de Necessidades Financeiras e Estrutura de Capital
+
+### 5.1 Métodos de Projeção
+- **Percentual sobre Vendas:** Simples e ajustado.
+- **Modelos:** Econométricos e simulações.
+
+### 5.2 Avaliação e Estrutura de Capital
+- **WACC:** Papel do Custo Médio Ponderado de Capital no longo prazo.
+- **Fontes:** Dívida vs. Capital Próprio.
+- **Alavancagem:** Financeira e Operacional para potencializar resultados.
+
+---
+
+## Unidade 6: Sistemas de Informação Gerencial (SIG) e Finanças
+
+### 6.1 O Papel dos Sistemas
+- **ERP:** Enterprise Resource Planning no controle financeiro.
+- **BI:** Business Intelligence para dashboards e relatórios.
+
+### 6.2 Controle de Desempenho (KPIs)
+- **KPIs Financeiros:** Desenvolvimento e monitoramento.
+- **BSC:** Balanced Scorecard na perspectiva financeira.
     `
   },
   {
     id: 3,
-    titulo: 'Análise de Demonstrativos Contábeis',
-    cronograma: '3-4 horas',
+    titulo: 'Módulo III: Gestão do Capital de Giro',
+    cronograma: '6-8 horas',
     texto: `
-## Demonstrativos Contábeis Fundamentais
+## Unidade 1: Conceitos e Estrutura do Capital de Giro
 
-Os demonstrativos contábeis são documentos que apresentam a situação financeira de uma organização. São ferramentas essenciais para análise e tomada de decisão.
+### 1.1 Definição e Importância
+- **O que é:** Capital de Giro é o recurso financeiro necessário para manter a empresa operando no dia a dia.
+- **Vitalidade:** Essencial para a saúde financeira, impactando diretamente o risco de insolvência e a lucratividade.
 
-### Balanço Patrimonial (BP)
+### 1.2 Componentes
+- **Ativo Circulante (AC):** Caixa, Contas a Receber, Estoques.
+- **Passivo Circulante (PC):** Fornecedores, Contas a Pagar, Dívidas de Curto Prazo.
+- **Capital de Giro Líquido (CGL):** AC - PC.
+    - *Positivo:* Folga financeira.
+    - *Negativo:* Risco de liquidez.
 
-O Balanço Patrimonial é uma fotografia da posição financeira em um momento específico, mostrando:
+### 1.3 A Abordagem dos Fundos
+- **Capital de Giro Próprio:** CGL financiado por Longo Prazo.
+- **NCG:** Necessidade de Capital de Giro.
+- **Saldo de Tesouraria:** Saldo de Caixa disponível.
 
-**Ativo (O que a empresa possui):**
-- Ativo Circulante: Disponibilidades, contas a receber, estoque (até 1 ano)
-- Ativo Não Circulante: Imóveis, máquinas, equipamentos (longo prazo)
+---
 
-**Passivo (O que a empresa deve):**
-- Passivo Circulante: Contas a pagar, empréstimos de curto prazo
-- Passivo Não Circulante: Empréstimos de longo prazo, financiamentos
+## Unidade 2: Análise dos Ciclos Operacionais e Financeiros
 
-**Patrimônio Líquido (Ativo - Passivo):**
-- Capital Social: Investimento dos proprietários
-- Lucros Retidos: Lucros não distribuídos
-- Reservas: Valores separados para objetivos específicos
+### 2.1 O Ciclo Operacional (CO)
+- **Definição:** Tempo total desde a compra de matéria-prima até o recebimento da venda.
+- **Cálculo:** Prazo Médio de Estocagem (PME) + Prazo Médio de Recebimento (PMR).
 
-**Fórmula Fundamental: Ativo = Passivo + Patrimônio Líquido**
+### 2.2 O Ciclo Financeiro (Ciclo de Caixa)
+- **Definição:** Período em que o caixa fica "descoberto".
+- **Cálculo:** Ciclo Operacional - Prazo Médio de Pagamento (PMP).
+- **Gestão:** Estratégias para reduzir o Ciclo de Caixa diminuem a NCG.
 
-### Demonstração do Resultado do Exercício (DRE)
+### 2.3 Impacto no Planejamento
+- **Crescimento:** Aumento de vendas gera aumento na NCG.
+- **Sazonalidade:** Influência nas necessidades de capital ao longo do ano.
 
-A DRE apresenta o desempenho financeiro durante um período (geralmente um ano), mostrando:
+---
 
-**Receita Bruta**: Total de vendas e serviços
-- Menos: Devoluções e descontos
-- **Receita Líquida**: Receita efetiva
+## Unidade 3: Políticas e Estratégias de Capital de Giro
 
-**Custos e Despesas**:
-- Custo de Mercadorias Vendidas (CMV): Custo dos produtos vendidos
-- Despesas Operacionais: Salários, aluguel, marketing
-- Despesas Financeiras: Juros de empréstimos
+### 3.1 Política de Investimento em Ativos Circulantes
+- **Conservadora:** Alto nível de AC (muito caixa e estoque). Menor risco, menor rentabilidade.
+- **Agressiva:** Baixo nível de AC. Maior risco, maior rentabilidade.
+- **Moderada:** Equilíbrio entre risco e retorno.
 
-**Resultado Final**:
-- EBIT (Lucro Operacional)
-- Resultado Financeiro
-- **Lucro Líquido**: Resultado final após impostos
+### 3.2 Política de Financiamento (Passivos)
+- **Agressiva:** Uso máximo de fontes de curto prazo.
+- **Conservadora:** Uso máximo de fontes de longo prazo.
 
-### Fluxo de Caixa
+### 3.3 Trade-off Risco x Retorno
+- Como as escolhas de política impactam a liquidez (capacidade de pagar) e a lucratividade da empresa.
 
-Diferente da DRE, o Fluxo de Caixa mostra o movimento real de dinheiro:
+---
 
-**Atividades Operacionais**: Caixa gerado pelas operações
-**Atividades de Investimento**: Compra/venda de ativos
-**Atividades de Financiamento**: Empréstimos, pagamentos de dividendos
+## Unidade 4: Administração de Caixa e Títulos Negociáveis
 
-### Análise Horizontal e Vertical
+### 4.1 Motivos para Manter Caixa
+- **Transação:** Pagar contas do dia a dia.
+- **Precaução:** Reservas para emergências.
+- **Especulação:** Aproveitar oportunidades de negócio.
 
-**Análise Horizontal**: Compara dados do mesmo item ao longo de vários períodos
-- Identifica tendências
-- Mostra crescimento ou declínio
+### 4.2 Gerenciamento do Fluxo de Caixa
+- **Cash Budget:** Elaboração e projeção do Orçamento de Caixa.
+- **Sincronização:** Alinhar entradas e saídas para minimizar saldos ociosos.
 
-**Análise Vertical**: Compara cada item com o total de sua categoria
-- Mostra proporções
-- Facilita comparações entre empresas de tamanhos diferentes
+### 4.3 Otimização e Títulos
+- **Modelos:** Baumol e Miller-Orr para definir saldo ótimo.
+- **Cash Pooling:** Concentração de caixa.
+- **Títulos Negociáveis:** Investimentos temporários com segurança, liquidez e rentabilidade.
 
-### Razões Financeiras Importantes
+---
 
-**Liquidez Corrente**: Ativo Circulante / Passivo Circulante
-- Mede capacidade de pagar obrigações de curto prazo
+## Unidade 5: Gestão de Contas a Receber (Crédito)
 
-**Rentabilidade do Patrimônio**: Lucro Líquido / Patrimônio Líquido
-- Mostra retorno sobre investimento dos proprietários
+### 5.1 Política de Crédito
+- **Dimensões:** Padrão de crédito (quem aprova) e Prazo de crédito.
+- **Custos:** Perda por inadimplência vs. Custo de oportunidade das vendas perdidas.
 
-**Endividamento**: Passivo Total / Ativo Total
-- Indica o percentual de financiamento externo
+### 5.2 Análise de Crédito
+- **Os 5 C's:** Caráter, Capacidade, Capital, Colateral, Condições.
+- **Scoring:** Uso de fontes de informação para pontuação de crédito.
 
-### Interpretação e Uso
+### 5.3 Monitoramento e Cobrança
+- **PMR:** Avaliação constante do Prazo Médio de Recebimento.
+- **Antecipação:** Factoring, Forfaiting e Desconto de Duplicatas para gerar caixa imediato.
 
-Os demonstrativos contábeis são usados por:
-- **Investidores**: Para decidir em quais empresas investir
-- **Credores**: Para avaliar risco de empréstimos
-- **Gestores**: Para tomar decisões operacionais
-- **Órgãos Reguladores**: Para verificar conformidade
+---
+
+## Unidade 6: Administração de Estoques
+
+### 6.1 Função e Custos
+- **Tipos:** Matéria-prima, em processo, acabados.
+- **Custos:** Pedido (compra), Armazenagem (manutenção) e Falta (escassez).
+
+### 6.2 Modelos de Gestão
+- **LEC (EOQ):** Lote Econômico de Compra para minimizar custos totais.
+- **Ponto de Pedido:** Quando comprar novamente.
+- **Estoque de Segurança:** Pulmão para incertezas.
+- **Curva ABC:** Foco nos itens mais valiosos (Princípio de Pareto).
+
+---
+
+## Unidade 7: Administração de Passivos Circulantes
+
+### 7.1 Gestão de Contas a Pagar
+- **Fornecedores:** Papel estratégico (trade credit).
+- **Descontos:** Custo implícito de não aproveitar descontos por pagamento antecipado.
+
+### 7.2 Fontes de Financiamento
+- **Bancárias:** Empréstimos, cheque especial, capital de giro.
+- **Recebíveis:** Desconto de duplicatas, factoring.
+
+### 7.3 Estrutura Ótima
+- **Decisão:** Comparar custo explícito (juros) vs. custo efetivo.
+- **Trade-off:** Dívida bancária vs. Crédito de fornecedores.
     `
   },
   {
     id: 4,
-    titulo: 'Fluxo de Caixa e Capital de Giro',
-    cronograma: '2-3 horas',
+    titulo: 'Módulo IV: Matemática Financeira Aplicada',
+    cronograma: '6-8 horas',
     texto: `
-## Fluxo de Caixa: O Sangue do Negócio
+## Unidade 1: Fundamentos e Juros Simples
 
-"Fluxo de caixa é a circulação do dinheiro". É absolutamente essencial para a sobrevivência de qualquer negócio, independentemente de sua lucratividade contábil.
+### 1.1 Conceitos Fundamentais
+- **Valor do Dinheiro no Tempo (VDT):** Um real hoje vale mais que um real amanhã.
+- **Variáveis:** Capital (P), Taxa (i), Tempo (n) e Montante (M).
+- **Taxas:** Nominal, efetiva e equivalente.
 
-### Por que Fluxo de Caixa é Crítico?
+### 1.2 Juros Simples
+- **Fórmulas:**
+    - Juros: $J = P \\cdot i \\cdot n$
+    - Montante: $M = P \\cdot (1 + i \\cdot n)$
+- **Aplicações:** Desconto Simples Racional (por dentro) e Comercial (por fora).
+- **Equivalência:** Comparação de capitais em datas diferentes no regime simples.
 
-Uma empresa pode ser lucrativa em termos contábeis mas falir por falta de caixa. Por exemplo:
-- Você vende um produto por R$ 1.000 com 90 dias de prazo
-- Seu fornecedor cobra à vista: R$ 600
-- Você tem lucro de R$ 400, mas não tem o dinheiro hoje!
+---
 
-### Estrutura do Fluxo de Caixa
+## Unidade 2: Juros Compostos (O Regime Padrão)
 
-**Entradas de Caixa:**
-- Vendas à vista
-- Recebimento de contas a receber
-- Empréstimos
-- Investimentos de proprietários
+### 2.1 Conceitos e Fórmulas
+- **Capitalização:** Juros sobre juros (exponencial).
+- **Fórmula do Montante:** $M = P \\cdot (1 + i)^n$
+- **VP e VF:** Cálculo do Valor Presente e Valor Futuro.
 
-**Saídas de Caixa:**
-- Pagamento de fornecedores
-- Salários e encargos
-- Aluguel e contas
-- Impostos
-- Financiamentos e juros
+### 2.2 Taxas de Juros
+- **Equivalentes:** Cálculo de taxas equivalentes (mensal para anual, etc.).
+- **Conversão:** Comparação de taxas em diferentes períodos.
 
-**Saldo de Caixa**: Entradas - Saídas
+### 2.3 Descontos Compostos
+- **Racional Composto:** Valor Presente de um título de valor nominal conhecido.
 
-### Métodos de Elaboração
+---
 
-**Método Direto**: Baseia-se em movimentações reais de caixa
-- Mais simples
-- Fácil de entender
-- Apropriado para planejamento
+## Unidade 3: Séries Uniformes de Pagamento (Anuidades)
 
-**Método Indireto**: Parte do lucro líquido e faz ajustes
-- Mais complexo
-- Baseia-se na DRE
-- Usado em demonstrativos formais
+### 3.1 Conceitos
+- **Definição:** Rendas Certas ou Anuidades (séries de pagamentos).
+- **Classificação:** Imediatas, Diferidas, Antecipadas e Postecipadas.
 
-### Ciclo Operacional
+### 3.2 Cálculo de Anuidades
+- **Valor Presente (VP):** Valor hoje de uma série futura.
+- **Valor Futuro (VF):** Montante acumulado de depósitos regulares.
+- **Prestação (PMT):** Cálculo da parcela em financiamentos.
 
-O ciclo operacional é o tempo entre comprar materiais e receber o dinheiro da venda:
+---
 
-1. **Compra de Matéria-Prima**: 30 dias de prazo
-2. **Produção**: 15 dias
-3. **Venda**: 60 dias de prazo
-4. **Ciclo Total**: 105 dias
+## Unidade 4: Sistemas de Amortização de Empréstimos
 
-Durante este período, a empresa não tem acesso ao dinheiro!
+### 4.1 Tabela Price (Sistema Francês)
+- **Característica:** Prestações fixas e iguais.
+- **Amortização:** Crescente ao longo do tempo.
 
-### Ciclo Financeiro
+### 4.2 Sistema SAC (Amortização Constante)
+- **Característica:** Amortização fixa.
+- **Prestação:** Decrescente ao longo do tempo.
 
-Ciclo Operacional menos o prazo de pagamento aos fornecedores:
-- Ciclo Operacional: 105 dias
-- Prazo de Fornecedor: 30 dias
-- **Ciclo Financeiro: 75 dias**
+### 4.3 Comparação
+- **SAM:** Sistema de Amortização Misto.
+- **Análise:** Comparação de custos totais para o tomador.
 
-A empresa precisa financiar 75 dias!
+---
 
-### Capital de Giro
+## Unidade 5: Análise de Fluxos de Caixa Não Uniformes e Decisão de Investimento
 
-Capital de giro é o montante de recursos necessários para financiar o ciclo operacional da empresa.
+### 5.1 Fluxos de Caixa Não Uniformes
+- **Cálculo:** VP e VF para fluxos irregulares.
+- **Ferramentas:** Uso da HP 12C e Excel.
 
-**Necessidade de Capital de Giro:**
-- Aumenta quando: vendas crescem, ciclo se alonga, prazo de cliente aumenta
-- Diminui quando: ciclo reduz, prazo de fornecedor aumenta
+### 5.2 Análise de Investimentos (Orçamento de Capital)
+- **VPL (Valor Presente Líquido):** Principal indicador de viabilidade.
+- **TIR (Taxa Interna de Retorno):** Taxa que zera o VPL.
+- **Payback Descontado:** Tempo de recuperação corrigido pelo VDT.
 
-**Cálculo Simplificado:**
-Capital de Giro = (Ativo Circulante) - (Passivo Circulante)
+---
 
-### Estratégias de Otimização
+## Unidade 6: Aplicações Especiais
 
-1. **Reduzir Ciclo de Venda**: Acelerar vendas e recebimentos
-   - Descontos à vista
-   - Cobrança ativa
-   - Venda online
+### 6.1 Custo Efetivo Total (CET)
+- **Análise:** Inclusão de taxas, tarifas e seguros no custo do empréstimo.
 
-2. **Estender Prazo de Pagamento**: Negociar mais prazo com fornecedores
-   - Aumentar relacionamento
-   - Manter histórico positivo
+### 6.2 Financiamento Imobiliário e Leasing
+- **Modelagem:** Características específicas dessas operações de longo prazo.
 
-3. **Reduzir Estoque**: Ter na mão apenas o necessário
-   - Just-in-time
-   - Previsão de demanda
-   - Gestão de inventário
-
-4. **Acelerar Recebimentos**: Cobrar mais rápido
-   - Intermediários financeiros
-   - Desconto para antecipação
-
-### Gestão de Caixa Diária
-
-- Manter saldo mínimo
-- Aplicar excedentes em produtos de curto prazo
-- Planejar despesas sazonais
-- Manter linhas de crédito disponíveis
+### 6.3 Inflação e Taxa de Juros
+- **Equação de Fisher:** Taxa Real vs. Taxa Nominal.
+- **Impacto:** Como a inflação corrói o poder de compra dos rendimentos.
     `
   },
   {
     id: 5,
-    titulo: 'Fontes de Financiamento e Investimentos',
-    cronograma: '3-4 horas',
+    titulo: 'Módulo V: Avaliação de Investimentos',
+    cronograma: '6-8 horas',
     texto: `
-## Fontes de Financiamento
+## Unidade 1: Fundamentos e Conceitos Preliminares
 
-Toda organização precisa de recursos para operar e crescer. Existem diversas fontes de financiamento disponíveis:
+### 1.1 O Processo de Orçamento de Capital
+- **Definição:** Decisões de investimento de longo prazo que moldam o futuro da empresa.
+- **Classificação:** Projetos de Reposição, Expansão, Inovação e Obrigatórios (legais/ambientais).
+- **Estratégia:** A avaliação de investimentos deve estar alinhada com a estratégia corporativa.
 
-### Financiamento com Recursos Próprios
+### 1.2 O Custo de Capital e TMA
+- **WACC (CMPC):** Custo Médio Ponderado de Capital. Representa o custo de oportunidade dos investidores.
+- **TMA (Taxa Mínima de Atratividade):** É a taxa mínima de retorno exigida para aceitar um projeto. Geralmente, TMA = WACC.
+- **Risco x Retorno:** Projetos mais arriscados exigem uma TMA maior.
 
-**Capital Social**: 
-- Investimento inicial dos proprietários
-- Vantagem: Sem obrigação de pagamento
-- Desvantagem: Dilui a propriedade
+---
 
-**Lucros Retidos**:
-- Lucros que a empresa não distribui aos proprietários
-- Vantagem: Sem custo explícito
-- Desvantagem: Reduz retorno aos proprietários
+## Unidade 2: Elaboração do Fluxo de Caixa Relevante
 
-**Reservas de Capital**:
-- Valores separados para objetivos específicos
-- Construídas ao longo do tempo
+### 2.1 Princípios do Fluxo de Caixa Incremental
+Devemos considerar apenas o que muda com a decisão.
+- **Custos Afundados (Sunk Costs):** Gastos passados (ex: pesquisa anterior) são irrelevantes.
+- **Custo de Oportunidade:** O valor da melhor alternativa descartada (ex: aluguel perdido de um galpão próprio) é um custo relevante.
+- **Efeitos Colaterais:** Impacto (positivo ou negativo) em outros produtos da empresa (canibalização).
 
-### Financiamento com Recursos de Terceiros
+### 2.2 Estrutura do Fluxo de Caixa
+1.  **Fluxo Inicial (FCF0):** Investimento em ativos (CAPEX) + Necessidade de Capital de Giro (NCG).
+2.  **Fluxo Operacional (FCO):** Receitas - Custos - Impostos.
+    - *Dica:* A Depreciação não é saída de caixa, mas reduz o imposto a pagar (**Tax Shield**). Somamos ela de volta no final.
+3.  **Fluxo Terminal (FCT):** Valor de venda dos ativos ao final + Recuperação do Capital de Giro.
 
-**Empréstimos Bancários**:
-- Crédito concedido por bancos
-- Prazos curto, médio ou longo
-- Cobram juros e taxas
-- Exigem garantias
+---
 
-**Financiamentos**:
-- Especializados para compras de ativos
-- Exemplo: Financiamento imobiliário, de máquinas
-- Prazo mais longo
-- Garantia é frequentemente o próprio ativo
+## Unidade 3: Critérios de Avaliação Determinísticos
 
-**Debêntures**:
-- Títulos de dívida emitidos pela empresa
-- Investidores emprestam dinheiro
-- Empresa paga juros periódicos
-- Prazo determinado
+### 3.1 Valor Presente Líquido (VPL)
+O "padrão-ouro" da análise. Traz todos os fluxos futuros a valor presente e subtrai o investimento.
+- **Fórmula:** $$VPL = \\sum_{t=0}^{n} \\frac{FCF_t}{(1 + TMA)^t} - Investimento$$
+- **Regra:** Se VPL > 0, o projeto cria riqueza. Aceitar.
+- **Exemplo:** Investimento de 100, retorno de 120 em 1 ano, TMA de 10%.
+    - $VPL = \\frac{120}{(1.10)^1} - 100 = 109,09 - 100 = 9,09$. (Aceitar).
 
-**Leasing**:
-- Aluguel de longo prazo com opção de compra
-- Vantagem: Flexibilidade
-- Desvantagem: Mais caro que financiamento
+### 3.2 Taxa Interna de Retorno (TIR)
+A taxa intrínseca de retorno do projeto.
+- **Definição:** É a taxa que faz o VPL ser zero.
+- **Regra:** Se TIR > TMA, aceitar.
+- **Limitações:** Pode falhar em fluxos não convencionais (múltiplas TIRs) ou projetos mutuamente exclusivos.
+- **TIRM (Modificada):** Corrige a suposição de reinvestimento da TIR tradicional.
 
-**Fornecedores**:
-- Prazo de pagamento negociado
-- Fonte importante de capital de giro
-- Sem custo de juros
+### 3.3 Outros Indicadores
+- **Payback Descontado:** Tempo para recuperar o investimento, considerando o valor do dinheiro no tempo. Mede liquidez e risco.
+- **Índice de Rentabilidade (IR):** Razão entre o VP das entradas e o Investimento Inicial. Útil para racionamento de capital.
 
-### Custo de Capital
+---
 
-O custo de cada fonte de financiamento varia:
-- Recursos próprios: Retorno esperado pelos proprietários
-- Empréstimos: Taxa de juros cobrada
-- Média ponderada: Custo médio de todo o capital
+## Unidade 4: Análise de Risco
 
-A empresa deve usar capital mais barato quando possível!
+### 4.1 Análise de Sensibilidade
+- **O que é:** Testar o impacto de mudar **uma variável por vez** (ex: preço, volume, custo) no VPL.
+- **Objetivo:** Identificar as variáveis críticas que exigem maior monitoramento.
 
-## Investimentos
+### 4.2 Análise de Cenários
+- **O que é:** Avaliar o projeto em conjuntos de variáveis: Cenário Otimista, Mais Provável e Pessimista.
+- **Resultado:** Calcula-se um VPL Esperado ponderado pelas probabilidades.
 
-Um investimento é aplicação de recursos visando retorno futuro. Toda decisão de investimento deve responder:
-- Quanto vou gastar?
-- Quanto vou ganhar?
-- Quanto tempo levará?
-- Qual é o risco?
+### 4.3 Ponto de Equilíbrio (Break-even)
+- **Contábil:** Lucro Zero.
+- **Financeiro:** VPL Zero. Qual o volume mínimo de vendas para não destruir valor?
 
-### Tipos de Investimentos Empresariais
+### 4.4 Simulação de Monte Carlo
+- Uso de software para simular milhares de cenários possíveis baseados em distribuições de probabilidade das variáveis.
 
-**Investimentos em Ativos Fixos**:
-- Máquinas, equipamentos, imóveis
-- Aumentam capacidade produtiva
-- Depreciação ao longo do tempo
-- Análise: Payback, TIR, VPL
+---
 
-**Investimentos em Capital de Giro**:
-- Aumento de estoque, contas a receber
-- Necessários para crescimento
-- Recuperáveis quando ciclo termina
+## Unidade 5: Decisões em Situações Especiais
 
-**Investimentos em Pesquisa e Desenvolvimento**:
-- Inovação de produtos
-- Melhoria de processos
-- Criação de vantagem competitiva
+### 5.1 Projetos Mutuamente Exclusivos
+Quando só podemos escolher um (ex: reformar máquina A ou comprar máquina B).
+- **Conflito:** Se VPL e TIR derem sinais opostos, **confie sempre no VPL**, pois ele maximiza a riqueza absoluta.
 
-**Investimentos em Recursos Humanos**:
-- Treinamento e desenvolvimento
-- Impacta produtividade
-- Retorno a longo prazo
+### 5.2 Racionamento de Capital
+Quando a empresa tem limite de orçamento para investir.
+- **Solução:** Usar o Índice de Rentabilidade (IR) para escolher o pacote de projetos que maximiza o VPL total dentro do orçamento.
 
-**Investimentos Financeiros**:
-- Aplicações em títulos, ações
-- Retorno através de dividendos ou ganhos
-- Importante para gerenciar caixa ocioso
-
-### Critérios de Avaliação de Investimentos
-
-**Payback**:
-- Tempo necessário para recuperar investimento inicial
-- Exemplo: Investimento de R$ 100.000 com lucro de R$ 25.000/ano
-- Payback: 4 anos
-- Simples, mas ignora fluxos após recuperação
-
-**Taxa Interna de Retorno (TIR)**:
-- Taxa de desconto que iguala entradas e saídas
-- Compara com custo de capital
-- Se TIR > custo capital, investimento é viável
-
-**Valor Presente Líquido (VPL)**:
-- Valor presente de todos os fluxos futuros
-- Se VPL > 0, investimento agrega valor
-- Considerado método mais robusto
-
-**Taxa de Retorno Simples**:
-- (Lucro Total / Investimento Inicial) × 100
-- Rápido para comparações
-
-### Investimentos Pessoais
-
-Para indivíduos:
-- **Renda Fixa**: Menos risco, retorno menor (CDB, Tesouro)
-- **Renda Variável**: Mais risco, maior potencial (Ações, Fundos)
-- **Imóveis**: Média prazo, retorno por aluguel
-- **Educação**: Investimento em si mesmo, maior retorno longo prazo
-
-### Gestão de Risco em Investimentos
-
-- Diversificação: Não colocar tudo em um ativo
-- Análise: Estudar antes de investir
-- Acompanhamento: Monitorar desempenho
-- Ajuste: Mudar estratégia conforme necessário
+### 5.3 Substituição de Ativos e Opções Reais
+- **Substituição:** Análise do momento ótimo de troca (custo de manutenção vs. custo de capital).
+- **Opções Reais:** Valor da flexibilidade gerencial (Opção de Expandir, Adiar ou Abandonar o projeto no futuro).
     `
   },
   {
     id: 6,
-    titulo: 'Indicadores de Desempenho Financeiro e Tomada de Decisão',
-    cronograma: '3-4 horas',
+    titulo: 'Módulo VI: Custo e Estrutura de Capital',
+    cronograma: '6-8 horas',
     texto: `
-## Indicadores Financeiros: Medindo o Desempenho
+## Unidade 1: Introdução ao Custo de Capital
 
-Os indicadores financeiros são métricas que resumem a saúde financeira de uma organização. São ferramentas poderosas para gestão e decisão.
+### 1.1 Definição e Importância
+- **Custo de Capital:** É a taxa de retorno que a empresa deve obter em seus investimentos para manter seu valor de mercado e atrair fundos.
+- **TMA (Taxa Mínima de Atratividade):** O Custo de Capital serve como a TMA, ou seja, a taxa mínima que um projeto deve render para ser aceito.
+- **Relação com Risco:** Quanto maior o risco do projeto ou da empresa, maior será o custo de capital exigido pelos investidores.
+- **Uso no VPL:** É a taxa de desconto utilizada para trazer os fluxos de caixa futuros a valor presente.
 
-### Indicadores de Liquidez
+### 1.2 Fontes Básicas de Capital
+- **Capital de Terceiros (Dívida):** Empréstimos bancários, debêntures, financiamentos. Geralmente tem custo menor e prioridade no recebimento.
+- **Capital Próprio:** Ações Ordinárias, Ações Preferenciais, Lucros Retidos. Tem custo maior devido ao maior risco assumido pelos sócios.
 
-Medem a capacidade de pagamento de obrigações de curto prazo.
+### 1.3 O Efeito dos Impostos
+- **Dedutibilidade:** Os juros da dívida são dedutíveis do Imposto de Renda (em regimes como Lucro Real), o que reduz o custo efetivo da dívida. Dividendos pagos aos acionistas não são dedutíveis.
 
-**Liquidez Corrente**: Ativo Circulante / Passivo Circulante
-- Ideal: Entre 1,0 e 1,5
-- Exemplo: AC = 100, PC = 80, LC = 1,25
-- Significa: R$ 1,25 para cada R$ 1 de obrigação
+---
 
-**Liquidez Seca**: (Ativo Circulante - Estoque) / Passivo Circulante
-- Mais conservadora
-- Exclui estoque (menos líquido)
-- Ideal: > 1,0
+## Unidade 2: Custo de Cada Componente do Capital
 
-**Liquidez Imediata**: (Caixa + Aplicações) / Passivo Circulante
-- Mais restritiva
-- Apenas disponibilidades imediatas
+### 2.1 Custo da Dívida (Kd)
+- **Custo da Dívida (Kd):** A taxa de juros bruta cobrada pelos credores.
+- **Custo Efetivo Após Imposto ($K_{d(1-T)}$):**
+    - Fórmula: $K_{d(1-T)} = K_d \\cdot (1 - T)$
+    - Onde $T$ é a alíquota de Imposto de Renda. O termo $(1-T)$ representa o benefício fiscal (Tax Shield).
 
-**Interpretação**:
-- Alta liquidez: Segurança, mas pode indicar capital parado
-- Baixa liquidez: Risco de inadimplência
+### 2.2 Custo do Capital Próprio ($K_s$)
+- **Custo dos Lucros Retidos:** O custo de oportunidade de reinvestir o lucro em vez de distribuí-lo.
+    - **Modelo de Gordon:** $K_s = \\frac{D_1}{P_0} + g$ (Dividendos esperados / Preço atual + Taxa de crescimento).
+    - **CAPM (Capital Asset Pricing Model):** $K_s = R_f + \\beta \\cdot (R_m - R_f)$
+        - $R_f$: Taxa Livre de Risco (ex: Títulos do Tesouro).
+        - $\\beta$: Beta (medida de risco sistemático da empresa).
+        - $(R_m - R_f)$: Prêmio de Risco de Mercado.
+- **Custo de Novas Ações ($K_n$):** Custo dos lucros retidos ajustado pelos custos de emissão (flutuação) das novas ações.
 
-### Indicadores de Rentabilidade
+### 2.3 Custo do Capital Preferencial ($K_p$)
+- Para ações preferenciais com dividendo fixo e perpétuo: $K_p = \\frac{D_p}{P_p}$ (Dividendo / Preço).
 
-Medem a capacidade de gerar lucro.
+---
 
-**Margem de Lucro Líquida**: (Lucro Líquido / Receita) × 100
-- Qual % da venda vira lucro
-- Exemplo: LL = 20, Receita = 100, Margem = 20%
+## Unidade 3: Custo Médio Ponderado de Capital (CMPC ou WACC)
 
-**Rentabilidade do Patrimônio (ROE)**: (Lucro Líquido / Patrimônio Líquido) × 100
-- Retorno para proprietários
-- Exemplo: LL = 100, PL = 1000, ROE = 10%
-- Os proprietários ganharam 10% sobre seu investimento
+### 3.1 Conceito de Média Ponderada
+- O WACC representa a taxa média que a empresa paga por todo o seu capital (próprio e de terceiros).
+- Os pesos devem ser baseados, preferencialmente, nos **valores de mercado** da dívida e das ações, não nos valores contábeis.
 
-**Rentabilidade do Ativo (ROA)**: (Lucro Líquido / Ativo Total) × 100
-- Eficiência em usar ativos
-- Exemplo: LL = 100, Ativo = 500, ROA = 20%
+### 3.2 Fórmula do WACC
+$$WACC = \\left( \\frac{D}{V} \\right) \\cdot K_{d(1-T)} + \\left( \\frac{E}{V} \\right) \\cdot K_s$$
+- $D$: Valor de mercado da Dívida.
+- $E$: Valor de mercado do Capital Próprio (Equity).
+- $V$: Valor total da empresa ($D + E$).
+- $\\frac{D}{V}$ e $\\frac{E}{V}$: Pesos da dívida e do capital próprio.
 
-**Giro do Ativo**: Receita / Ativo Total
-- Quantas vezes o ativo se "vira" em vendas
-- Maior = melhor utilização
+### 3.3 Aplicações
+- **TMA da Empresa:** O WACC é a taxa correta para avaliar projetos que tenham o **mesmo risco** das operações atuais da empresa.
+- **Ajustes:** Para projetos com risco diferente, o WACC deve ser ajustado para cima (maior risco) ou para baixo (menor risco).
 
-**Interpretação**:
-- Comparar com concorrentes
-- Tendência ao longo do tempo
-- Indústria específica
+---
 
-### Indicadores de Endividamento
+## Unidade 4: Estrutura de Capital
 
-Medem o percentual de financiamento externo.
+### 4.1 Conceito e Objetivos
+- **Estrutura de Capital:** A combinação de Dívida de Longo Prazo e Capital Próprio usada para financiar a empresa.
+- **Objetivo:** Encontrar a **Estrutura Ótima** que minimize o WACC e, consequentemente, maximize o valor da empresa.
 
-**Endividamento Geral**: (Passivo Total / Ativo Total) × 100
-- % do ativo financiado com dívida
-- Exemplo: Passivo = 600, Ativo = 1000, Endividamento = 60%
+### 4.2 Teorias da Estrutura de Capital
+- **Abordagem Tradicional:** Existe uma estrutura ótima (um ponto de mínimo para o WACC).
+- **Modigliani e Miller (MM):**
+    - *Sem Impostos:* A estrutura é irrelevante (o valor da empresa não muda).
+    - *Com Impostos:* A estrutura ótima seria 100% dívida devido ao benefício fiscal máximo.
+- **Teoria do Trade-off:** A empresa equilibra o benefício fiscal da dívida com os custos da falência (risco financeiro). A estrutura ótima ocorre quando o benefício marginal da dívida iguala o custo marginal da falência.
+- **Pecking Order (Hierarquia):** Empresas preferem financiar-se primeiro com Lucros Retidos (interno), depois Dívida e, por último, Emissão de Ações (externo), para evitar assimetria de informação.
 
-**Composição do Endividamento**: Passivo Circulante / Passivo Total
-- % da dívida de curto prazo
+### 4.3 Fatores de Influência
+- Estabilidade das vendas (mais estável = pode ter mais dívida).
+- Ativos tangíveis (garantias).
+- Características do setor.
 
-**Índice de Cobertura**: Lucro Operacional / Despesa Financeira
-- Quantas vezes o lucro cobre os juros
-- Exemplo: LO = 1000, Juros = 100, Cobertura = 10x
-- Segurança maior com cobertura > 5x
+---
 
-**Interpretação**:
-- Endividamento alto: Risco, mas alavanca retorno
-- Endividamento baixo: Segurança, mas subutiliza financiamento
+## Unidade 5: Alavancagem e Risco
 
-### Indicadores de Atividade
+### 5.1 Alavancagem Operacional (GAO)
+- Uso de **Custos Fixos Operacionais**.
+- Magnifica o efeito de mudanças nas Vendas sobre o Lucro Operacional (EBIT).
+- **GAO:** Variação % no EBIT / Variação % nas Vendas.
 
-Medem a eficiência operacional.
+### 5.2 Alavancagem Financeira (GAF)
+- Uso de **Custos Fixos Financeiros** (Juros da Dívida).
+- Magnifica o efeito de mudanças no EBIT sobre o Lucro por Ação (LPA) ou ROE.
+- **GAF:** Variação % no LPA / Variação % no EBIT.
 
-**Prazo Médio de Recebimento**: (Contas a Receber × Dias) / Vendas
-- Quanto tempo leva para receber
-- Exemplo: 30 dias = recebimento em um mês
+### 5.3 Alavancagem Combinada (GAC)
+- Efeito total dos custos fixos operacionais e financeiros.
+- **GAC:** GAO $\\times$ GAF. Mostra o impacto total das vendas no lucro do acionista.
 
-**Prazo Médio de Pagamento**: (Contas a Pagar × Dias) / Compras
-- Quanto tempo a empresa paga fornecedores
-- Ideal: Maior que prazo de recebimento
-
-**Giro de Estoque**: Custo de Vendas / Estoque Médio
-- Quantas vezes o estoque se renova
-- Maior = menos dinheiro parado
-
-**Ciclo Operacional**: Prazo Recebimento + Dias em Estoque - Prazo Pagamento
-- Quantos dias de financiamento precisa
-
-### Indicadores de Mercado
-
-Para empresas de capital aberto.
-
-**Lucro por Ação (LPA)**: Lucro Líquido / Número de Ações
-- Quanto lucro cada ação gerou
-
-**Preço/Lucro (P/L)**: Preço da Ação / LPA
-- Quantas vezes o lucro o mercado paga
-- P/L 20 = mercado paga 20 vezes o lucro
-
-**Dividend Yield**: (Dividendo / Preço da Ação) × 100
-- Retorno em dividendos
-- Mais comum em ações defensivas
-
-### Tomada de Decisão com Indicadores
-
-**1. Análise Histórica**:
-- Como os indicadores evoluíram?
-- Melhorando ou piorando?
-
-**2. Análise Comparativa**:
-- Como estamos vs. concorrentes?
-- Como estamos vs. média do setor?
-
-**3. Análise de Tendência**:
-- Para onde estamos indo?
-- Projetar próximos períodos
-
-**4. Análise de Causas**:
-- Por que o indicador mudou?
-- Fatores internos ou externos?
-
-**5. Plano de Ação**:
-- O que fazer para melhorar?
-- Priorizar ações
-
-### Balanced Scorecard (BSC)
-
-Framework que equilibra múltiplas perspectivas:
-
-**Perspectiva Financeira**:
-- Lucratividade, retorno, crescimento
-
-**Perspectiva do Cliente**:
-- Satisfação, retenção, market share
-
-**Perspectiva Interna**:
-- Eficiência, qualidade, inovação
-
-**Perspectiva de Aprendizado**:
-- Desenvolvimento de pessoas, tecnologia
-
-### Erro Comum: Números Isolados
-
-Um indicador isolado pode enganar:
-- Lucro alto + Liquidez baixa = Risco
-- Rentabilidade alta + Endividamento alto = Risco concentrado
-- Sempre analisar o conjunto de indicadores!
-
-### Conclusão
-
-Indicadores financeiros são o "painel de controle" da gestão. Um gestor profissional:
-- Acompanha regularmente
-- Entende o que cada um significa
-- Toma ações corretivas quando necessário
-- Comunica resultados claramente
+### 5.4 Análise EBIT-LPA
+- Gráfico que mostra o ponto de indiferença (nível de EBIT) onde duas estruturas de capital geram o mesmo LPA. Acima desse ponto, a alavancagem financeira é benéfica; abaixo, é prejudicial.
     `
   }
 ];
@@ -642,6 +574,26 @@ const imagensModulos = {
 export default function ModuloCurso() {
   const { id } = useParams();
   const modulo = conteudos.find(m => m.id === Number(id));
+  const [activeTab, setActiveTab] = useState(0);
+
+  const units = useMemo(() => {
+    if (!modulo) return [];
+    // Regex to find units: ## Unidade X: Title
+    // We want to capture the title and the content following it until the next unit or end of string.
+    const regex = /## Unidade \d+: (.*?)\n([\s\S]*?)(?=(## Unidade|$))/g;
+    const matches = [...modulo.texto.matchAll(regex)];
+    
+    if (matches.length === 0) {
+        // Fallback if no units found, return whole text as one unit
+        return [{ titulo: 'Conteúdo Completo', conteudo: modulo.texto }];
+    }
+
+    return matches.map((m, index) => ({
+      id: index,
+      titulo: m[1].trim(),
+      conteudo: m[2]
+    }));
+  }, [modulo]);
 
   if (!modulo) return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-900 flex items-center justify-center">
@@ -655,14 +607,14 @@ export default function ModuloCurso() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex flex-col items-center py-12 px-4">
       {/* Breadcrumb */}
-      <div className="w-full max-w-4xl mb-6">
+      <div className="w-full max-w-7xl mb-6">
         <Link to="/" className="text-blue-300 hover:text-blue-100 flex items-center gap-2 font-semibold">
           <FaArrowLeft /> Voltar aos módulos
         </Link>
       </div>
 
       {/* Header do Módulo */}
-      <div className="w-full max-w-4xl bg-gradient-to-r from-blue-700 to-blue-900 rounded-2xl shadow-2xl p-10 mb-10 text-white relative overflow-hidden">
+      <div className="w-full max-w-7xl bg-gradient-to-r from-blue-700 to-blue-900 rounded-2xl shadow-2xl p-10 mb-10 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-20 -mt-20 blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-40 h-40 bg-cyan-400 opacity-10 rounded-full -ml-10 -mb-10 blur-2xl"></div>
         
@@ -684,10 +636,37 @@ export default function ModuloCurso() {
         </div>
       </div>
 
+      {/* Tabs Navigation */}
+      {units.length > 1 && (
+        <div className="w-full max-w-7xl mb-8 flex flex-wrap gap-2">
+            {units.map((unit, index) => (
+                <button
+                    key={index}
+                    onClick={() => setActiveTab(index)}
+                    className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${
+                        activeTab === index
+                            ? 'bg-blue-600 text-white shadow-lg scale-105'
+                            : 'bg-white/10 text-blue-200 hover:bg-white/20 hover:text-white'
+                    }`}
+                >
+                    Unidade {index + 1}
+                </button>
+            ))}
+        </div>
+      )}
+
       {/* Conteúdo do Módulo */}
-      <div className="w-full max-w-4xl bg-white rounded-xl shadow-2xl p-12 mb-8 border border-gray-100">
+      <div className="w-full max-w-7xl bg-white rounded-xl shadow-2xl p-12 mb-8 border border-gray-100">
+        {units.length > 0 && (
+            <div className="mb-8 pb-6 border-b border-gray-200">
+                <h2 className="text-3xl font-bold text-blue-900">
+                    {units[activeTab].titulo}
+                </h2>
+            </div>
+        )}
+
         <div className="prose prose-lg max-w-none text-gray-700">
-          {modulo.texto.split('\n').map((linha, idx) => {
+          {(units.length > 0 ? units[activeTab].conteudo : modulo.texto).split('\n').map((linha, idx) => {
             // Função para processar negrito inline (**texto**)
             const processarTexto = (texto) => {
               const partes = texto.split(/(\*\*.*?\*\*)/);
@@ -755,7 +734,7 @@ export default function ModuloCurso() {
           src={imagensModulos[modulo.id] || "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"}
           alt="Ilustração do módulo"
           className="my-8 rounded-xl shadow-lg w-full object-cover"
-          style={{ maxHeight: 300 }}
+          style={{ maxHeight: 400, width: '100%', objectFit: 'cover' }}
         />
 
         {/* Status */}
@@ -768,7 +747,7 @@ export default function ModuloCurso() {
       </div>
 
       {/* Quiz Interativo */}
-      <div className="w-full max-w-4xl mb-12">
+      <div className="w-full max-w-7xl mb-12">
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
           <FaBook /> Teste Seu Conhecimento
         </h2>

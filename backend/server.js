@@ -583,11 +583,37 @@ app.get('/dashboard/dados', async (req, res) => {
         ...user,
         progresso: progressoGeral,
         media: mediaNotas,
-        modulos_concluidos: modulosConcluidos
+        modulos_concluidos: modulosConcluidos,
+        detalhes_modulos: userProgress
       };
     });
 
     res.json(dashboardData);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Alterar permissão de admin (Requer senha mestra)
+app.patch('/usuarios/:id/admin', async (req, res) => {
+  const { id } = req.params;
+  const { admin, senhaMestra } = req.body;
+
+  // Senha mestra fixa para segurança simples
+  const SENHA_MESTRA_SISTEMA = 'admin123'; 
+
+  if (senhaMestra !== SENHA_MESTRA_SISTEMA) {
+    return res.status(403).json({ error: 'Senha mestra incorreta.' });
+  }
+
+  try {
+    const pool = await sql.connect(sqlConfig);
+    await pool.request()
+      .input('id', sql.Int, id)
+      .input('admin', sql.Bit, admin)
+      .query('UPDATE gf_usuarios SET admin = @admin WHERE id = @id');
+    
+    res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -599,4 +625,4 @@ cron.schedule('35 14 * * 1-5', () => {
   console.log('Executando rotina diária às 14:35');
 });
 
-app.listen(3001, '0.0.0.0', () => console.log('API SQL Server rodando em http://0.0.0.0:3001'));
+app.listen(3002, '0.0.0.0', () => console.log('API SQL Server rodando em http://0.0.0.0:3002'));

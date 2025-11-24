@@ -6,43 +6,43 @@ import NotasAlunoToggle from './NotasAlunoToggle';
 const modulos = [
 	{
 		id: 1,
-		titulo: 'Introdução à Gestão Financeira e Conceitos Básicos',
-		descricao: 'Fundamentos essenciais para entender a gestão financeira.',
+		titulo: 'Fundamentos da Administração Financeira',
+		descricao: 'Conceitos, evolução e papel do gestor financeiro.',
 		icon: FaBook,
 		duracao: '2-3 horas'
 	},
 	{
 		id: 2,
-		titulo: 'Planejamento e Controle Financeiro',
-		descricao: 'Como planejar, organizar e controlar as finanças de uma organização.',
+		titulo: 'Análise e Planejamento Financeiro',
+		descricao: 'Demonstrações contábeis e índices financeiros.',
 		icon: FaChartLine,
 		duracao: '3-4 horas'
 	},
 	{
 		id: 3,
-		titulo: 'Análise de Demonstrativos Contábeis',
-		descricao: 'Fundamentos essenciais para entender a gestão financeira.',
+		titulo: 'Gestão do Capital de Giro',
+		descricao: 'Administração de caixa, contas a receber e estoques.',
 		icon: FaBook,
 		duracao: '2-3 horas'
 	},
 	{
 		id: 4,
-		titulo: 'Fluxo de Caixa e Capital de Giro',
-		descricao: 'Gestão do fluxo de caixa e capital de giro para saúde financeira.',
+		titulo: 'Matemática Financeira Aplicada',
+		descricao: 'Juros, valor do dinheiro no tempo e ferramentas.',
 		icon: FaBook,
 		duracao: '2-3 horas'
 	},
 	{
 		id: 5,
-		titulo: 'Fontes de Financiamento e Investimentos',
-		descricao: 'Principais fontes de recursos e noções de investimento.',
+		titulo: 'Avaliação de Investimentos',
+		descricao: 'VPL, TIR, Payback e análise de risco.',
 		icon: FaChartLine,
 		duracao: '3-4 horas'
 	},
 	{
 		id: 6,
-		titulo: 'Indicadores de Desempenho Financeiro e Tomada de Decisão',
-		descricao: 'Como usar indicadores para decisões estratégicas.',
+		titulo: 'Custo e Estrutura de Capital',
+		descricao: 'WACC, alavancagem e estrutura de capital.',
 		icon: FaChartLine,
 		duracao: '3-4 horas'
 	}

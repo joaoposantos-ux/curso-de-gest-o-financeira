@@ -11,7 +11,7 @@ export default function CadastroUsuario({ onVoltar }) {
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleFotoChange = e => setFoto(e.target.files[0]);
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002';
 
   const handleSubmit = async e => {
     e.preventDefault();

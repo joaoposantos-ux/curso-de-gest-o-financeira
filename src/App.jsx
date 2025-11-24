@@ -62,7 +62,7 @@ export default function App() {
             <Route path="/curso" element={<HomeCurso />} />
             <Route path="/modulo/:id" element={<ModuloCurso />} />
             <Route path="/aluno" element={<AreaAluno />} />
-            <Route path="/gestor" element={<DashboardGestor />} />
+            <Route path="/gestor" element={usuario?.admin ? <DashboardGestor usuario={usuario} /> : <HomeCurso />} />
             <Route path="/declaracao" element={<DeclaracaoConclusao usuario={usuario} />} />
             <Route path="*" element={<HomeCurso />} />
           </Routes>
