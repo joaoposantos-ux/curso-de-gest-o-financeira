@@ -1,0 +1,31 @@
+INSTRUÇÕES PARA RODAR O PROJETO
+===============================
+
+Este projeto foi configurado para rodar localmente utilizando Node.js e SQLite.
+
+PRÉ-REQUISITOS:
+- Node.js instalado na máquina.
+
+COMO RODAR (MÉTODO FÁCIL):
+1. Dê um duplo clique no arquivo "RODAR_PROJETO.bat".
+2. O script irá automaticamente:
+   - Instalar as bibliotecas necessárias (Frontend e Backend).
+   - Iniciar o servidor Backend (Porta 3002).
+   - Iniciar o site Frontend (Porta 6300).
+   - Abrir o navegador automaticamente.
+
+COMO RODAR (MÉTODO MANUAL):
+Se preferir rodar via terminal:
+
+1. Abra o terminal na pasta do projeto.
+2. Backend:
+   cd backend
+   npm install
+   node server.js
+3. Frontend (em outro terminal):
+   npm install
+   npm run dev
+
+OBSERVAÇÕES:
+- O banco de dados é criado automaticamente (arquivo 'database.sqlite' na pasta backend).
+- O banco inicia vazio. Utilize a opção "Cadastre-se" na tela de login para criar o primeiro usuário.
