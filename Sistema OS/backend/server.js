@@ -372,12 +372,11 @@ app.delete('/os/evidencias/:id', (req, res) => {
 });
 
 // Configuração de conexão com SQL Server  
-//data source=sql5046.site4now.net;initial catalog=DB_A25210_firstservico;user id=DB_A25210_firstservico_admin;password=123mudar!@#;
 const sqlServerConfig = {
-  user: 'DB_A25210_firstservico_admin',
-  password: '123mudar!@#',
-  server: 'sql5046.site4now.net', // ex: 'localhost' ou '192.168.0.10'
-  database: 'DB_A25210_firstservico',
+  user: 'USUARIO_DO_BANCO',
+  password: 'SENHA_DO_BANCO',
+  server: 'SERVIDOR_DO_BANCO', // ex: 'localhost' ou '192.168.0.10'
+  database: 'NOME_DO_BANCO',
   options: {
     encrypt: false, // true para Azure, false para local
     trustServerCertificate: true // true para conexões locais
